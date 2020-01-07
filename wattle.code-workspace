@@ -1,0 +1,10 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"python.pythonPath": "/home/nd/.local/share/virtualenvs/wattle-cw-PyZBt/bin/python"
+	}
+}

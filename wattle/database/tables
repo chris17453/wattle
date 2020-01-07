@@ -1,0 +1,46 @@
+
+
+#entity physical divisions
+location  id, address1, address2, city, postalcode,  state, country
+
+
+# entity is the grouping divisor. can be nested
+#entity    id, name, division, group, location, parent_id
+
+#group
+# id, name, display, order, entity_id
+
+# links 
+id, method_id, title, group_id
+
+# methods
+id, title, description, header, footer, theme, input module,display module, auto run
+
+
+# user belongs to entity
+user id, account, password, created,modified,active
+
+# permissions
+id, type, parent, child, deny
+
+
+# user permissions
+
+- user
+ - entity E2 LOC1
+   - entity E1 HQ
+
+    
+
+user login
+get permissions
+ find all entitys to root
+ make permission matrix
+ select all groups from permission matrix
+ select all links from permission matrix
+ select all denied from permission matrix
+
+
+
+
+
