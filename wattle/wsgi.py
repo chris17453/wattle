@@ -5,10 +5,15 @@ from datetime import datetime, timedelta
 from .crud import tables, ddb_query_geany, initdb
 
 
-from flask import Flask, request, send_from_directory
-app = Flask(__name__, static_url_path='')
+from flask import Flask, request, send_from_directory, jsonify, render_template
+from flask_cors import CORS
 
+app = Flask(__name__, 
 
+static_folder = "./app",
+template_folder = "./app")
+
+CORS(app, resources={r'/*': {'origins': '*'}})
 
 base_URL="/"
 
@@ -47,7 +52,7 @@ def json_response(body='', **kwargs):
 # this grants you your token. It's important because everything uses a token
 @app.route('/v1/login/<entity>')
 def login(entity):
-    post_data = request..post()
+    post_data = request.post()
 
     try:
         user =validate_user(post_data['account'],post_data['password'],entity)
@@ -70,16 +75,22 @@ def login(entity):
 # [API]*************************************************************************
 
 @app.route('/')
-def root():
-    return app.send_static_file('app/index.html')
+def index():
+    return render_template("index.html")
 
-@app.route('/assets/<path:path>')
+@app.route('/js/<path:path>')
 def send_js(path):
-    return send_from_directory('/app/', path)    
+    #return path
+    return send_from_directory('app/js/', path,mimetype="text/javascript")    
+
+@app.route('/view/<path:path>')
+def send_view(path):
+    #return path
+    return send_from_directory('app/view/', path,mimetype="text/javascript")    
 
 
 @app.route('/media/<path:path>')
-def send_js(path):
+def send_media(path):
     return send_from_directory('static', path)    
 
 @app.route('/api/')
@@ -108,22 +119,6 @@ def api():
 #    e.set_parameter("@name",name)
 #    e.execute(query)
 #
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
 
 
 

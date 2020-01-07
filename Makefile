@@ -69,7 +69,7 @@ status:
 	@echo "TO DO"
 
 debug:
-	@python ./src/wsgi.py
+	@python -m wattle.wsgi
 
 
 ## DEPLOY

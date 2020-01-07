@@ -1,7 +1,7 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import LoginComponent from "./views/login.vue"
-import SecureComponent from "./views/secure.vue"
+import Vue from './vue.js'
+//import Router from 'vue-router'
+import LoginComponent from "../view/login.vue"
+import SecureComponent from "../view/secure.vue"
 
 Vue.use(Router)
 

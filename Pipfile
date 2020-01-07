@@ -11,6 +11,8 @@ jwt = "*"
 requests = "*"
 flask = "*"
 flask-cors = "*"
+openpyxl = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.7"
