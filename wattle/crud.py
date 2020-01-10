@@ -106,15 +106,15 @@ class ddb_query_geany:
 
 
 def initdb(table_defs):
-      queries=[]
-      for table in table_defs:
+    queries=[]
+    for table in table_defs:
         #print(table)
         t=table
         crud=ddb_query_geany(t['db'],t['table'],t['file'],t['columns'],t['delimiter'])
         queries.append(crud.create_table()+";")
         e=ddb.engine()
         e.query( ";".join(queries) )
-        return e;
+    return e
 
 def test_crud():
     for table in tables:
