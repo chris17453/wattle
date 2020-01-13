@@ -25,6 +25,8 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
+        if user_id==None:
+            return None
         try:
             user=get_user_by_id(user_id)
 
@@ -36,7 +38,9 @@ def create_app():
 
     @login_manager.request_loader
     def request_loader(request):
-        return load_user(session['id'])
+        if 'id' in session:
+            return load_user(session['id'])
+        return None
 
     # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint

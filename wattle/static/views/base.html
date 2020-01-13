@@ -15,7 +15,12 @@
     <script src="/media/jquery-ui/jquery-ui.min.js"></script>
     <link href="/media/jquery-ui/jquery-ui.css" rel="stylesheet">
     <link href="/media/css/bluma.min.css" rel="stylesheet">
-
+    
+    <style>
+        .hero.is-primary {
+            background: rgba(2,0,36,1);
+        }
+    </style>
     <script type="text/javascript">
       watle=function(){
       }();
@@ -26,6 +31,25 @@
         }
         $("#wattle_logout").click(logout_function);
       });
+
+
+    // register jQuery extension
+    jQuery.extend(jQuery.expr[':'], {
+        focusable: function (el, index, selector) {
+            return $(el).is('a, button, :input, [tabindex]');
+        }
+    });
+
+    $(document).on('keypress', 'input,select', function (e) {
+        if (e.which == 13) {
+            e.preventDefault();
+            // Get all focusable elements on the page
+            var $canfocus = $(':focusable');
+            var index = $canfocus.index(this) + 1;
+            if (index >= $canfocus.length) index = 0;
+            $canfocus.eq(index).focus();
+        }
+    });      
       </script>
 </head>
 <body>
