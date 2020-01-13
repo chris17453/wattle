@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, request , send_from_directory
-#from flask_login import login_user, logout_user, login_required
+from flask_login import login_user, logout_user, login_required
 #from .models import User
 
 static = Blueprint('static', __name__,
@@ -7,12 +7,17 @@ static = Blueprint('static', __name__,
     template_folder = "./static/views")
     
 @static.route('/')
-def index():
+def unauth():
+    return render_template("unauth.html")
+
+@static.route('/home')
+@login_required
+def home():
     return render_template("home.html")
 
 @static.route('/login')
 def login():
-    return render_template("login.html")
+    return render_template("login.html",url="login")
 
 @static.route('/js/<path:path>')
 def send_js(path):

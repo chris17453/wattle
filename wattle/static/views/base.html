@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Flask Auth Example</title>
+    <title>Wattle</title>
     <!-- Bootstrap core CSS -->
     <link href="/media/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -14,9 +14,9 @@
     <script src="/media/jquery-ui/external/jquery/jquery.js"></script>
     <script src="/media/jquery-ui/jquery-ui.min.js"></script>
     <link href="/media/jquery-ui/jquery-ui.css" rel="stylesheet">
+    <link href="/media/css/bluma.min.css" rel="stylesheet">
 
     <script type="text/javascript">
-
       watle=function(){
       }();
       
@@ -26,32 +26,44 @@
         }
         $("#wattle_logout").click(logout_function);
       });
-          
-      
-      
       </script>
 </head>
-
 <body>
     <section class="hero is-primary is-fullheight">
 
         <div class="hero-head">
             <nav class="navbar">
                 <div class="container">
-
                     <div id="navbarMenuHeroA" class="navbar-menu">
-                        <div class="navbar-end">
-                            <a href="{{ url_for('static.index') }}" class="navbar-item">
+                        <div class='navbar-start'>
+                        {% if current_user.is_authenticated%}
+
+                            <a href="{{ url_for('static.home') }}" class="navbar-item">
                                 Home
                             </a>
-                            {% if current_user.is_authenticated %}
-                            Logged In
-                            {% endif %}
-                            {% if not current_user.is_authenticated %}
-                            <a href="{{ url_for('auth.login') }}" class="navbar-item">
-                                Login
+                        {% endif %}
+
+                        {% if not current_user.is_authenticated%}
+                            <a href="{{ url_for('static.unauth') }}" class="navbar-item">
+                                Home
                             </a>
                             {% endif %}
+
+                        </div>
+                        <div class="navbar-end">
+                            {% if current_user.is_authenticated %}
+                            <span class="navbar-item">
+                            Logged In
+                            </span>
+                            {% endif %}
+                            {% if not url %}
+                                {% if not current_user.is_authenticated%}
+                                <a href="{{ url_for('auth.login') }}" class="navbar-item">
+                                    Login
+                                </a>
+                                {% endif %}
+                            {% endif %}
+                            
                             {% if current_user.is_authenticated %}
                             <a href="{{ url_for('auth.logout') }}" class="navbar-item">
                                 Logout
@@ -71,5 +83,4 @@
         </div>
     </section>
 </body>
-
 </html>

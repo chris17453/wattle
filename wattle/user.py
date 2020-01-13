@@ -3,6 +3,7 @@ import jwt
 import requests, json
 from datetime import datetime, timedelta
 
+from . import db
 
 def validate_user(account,password,entity):
     return {'id':1}
@@ -79,8 +80,68 @@ def api():
 #    e.execute(query)
 #
 
-def get_user_by_id(user_id):
+
+
+
+class user:
+    id=None
+    account=None
+    token=None
+
+    is_authenticated=False
+    is_active=False
+    is_anonymous=True
+
+
+    id="UNK"
+    def __init__(self):
+        pass
+
+    def login(self,account,token):
+        try:
+            res=db.query("SELECT id,account,token,active from wattle.account where account=@account and token=@token  LIMIT 1",{'@account':account,'@token':token})
+            if res.data_length==0:
+                return None;
+            data=res.data[0]['data']
+            self.id       =data['id']
+            self.account  =data['account']
+            self.token    =data['token']
+            self.logged_in=True
+
+            self.is_authenticated=True
+            if data['active']=='1':
+                self.is_active=True
+            self.is_anonymous=False
+
+        except Exception as ex:
+            print(ex)
+            pass
+
+    def load_by_id(self,id):
+        res=db.query("SELECT account,token from wattle.account where id=@account_id LIMIT 1",{'@account_id':id})
+        data=account=res.data[0]['data']
+        account=data['account']
+        token=data['token']
+        self.login(account,token)
+        
+
     
-    res=db.query("SELECT user from wattle.user where user_id=@user_id LIMIT 1",{'@user_id':user_id})
-    print(res['data']);
-    return res['data']
+    def get_id(self):
+        if self.logged_in:
+            return self.id
+        return None
+
+
+def validate_user(account,token):
+    try:
+        user_session=user()
+        user_session.login(account,token)
+    except Exception as ex:
+        #print(ex)
+        pass
+    return user_session
+
+def get_user_by_id(account_id):
+    user_session=user()
+    user_session.load_by_id(account_id)
+    return user_session

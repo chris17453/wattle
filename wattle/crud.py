@@ -1,12 +1,17 @@
 import ddb
+
+CREATE_DB=None
+db_config_dir="db"
+db_name="wattle"
+
 tables=[
-{'file': 'wattle/user.txt'      , 'delimiter': ',', 'db':'wattle','table':'user'        , 'columns':[ 'id', 'account'  , 'password'   , 'entity_id', 'created'  , 'modified' , 'active'                                      ]},
-{'file': 'wattle/locations.txt' , 'delimiter': ',', 'db':'wattle','table':'location'    , 'columns':[ 'id', 'name'     , 'designation', 'address1' , 'address2' , 'city'     , 'postalcode'  , 'state'          ,'country'   ]},
-{'file': 'wattle/entity.txt'    , 'delimiter': ',', 'db':'wattle','table':'entity'      , 'columns':[ 'id', 'name'     , 'division'   , 'group'    , 'location' , 'parent_id'                                                ]},
-{'file': 'wattle/group.txt'     , 'delimiter': ',', 'db':'wattle','table':'group'       , 'columns':[ 'id', 'name'     , 'display'    , 'order'    , 'entity_id'                                                             ]},
-{'file': 'wattle/link.txt'      , 'delimiter': ',', 'db':'wattle','table':'link'        , 'columns':[ 'id', 'method_id', 'title'      , 'group_id'                                                                           ]},
-{'file': 'wattle/methods.txt'   , 'delimiter': ',', 'db':'wattle','table':'methods'     , 'columns':[ 'id', 'title'    , 'description', 'header'   , 'footer'   , 'theme'    , 'input_module', 'display_module', 'auto_run'  ]},
-{'file': 'wattle/methods.txt'   , 'delimiter': ',', 'db':'wattle','table':'permissions' , 'columns':[ 'id', 'type'     , 'parent'     , 'child'    , 'deny'                                                                  ]},
+{'file': '{0}/{1}/account.txt'   .format(db_config_dir,db_name), 'delimiter': ',', 'db':'{0}'.format(db_name),'table':'account'     , 'columns':[ 'id', 'account'  , 'token'      , 'crud'   , 'entity_id', 'created'  , 'modified' , 'active'                                      ]},
+{'file': '{0}/{1}/locations.txt' .format(db_config_dir,db_name), 'delimiter': ',', 'db':'{0}'.format(db_name),'table':'location'    , 'columns':[ 'id', 'name'     , 'designation', 'address1' , 'address2' , 'city'     , 'postalcode'  , 'state'          ,'country'   ]},
+{'file': '{0}/{1}/entity.txt'    .format(db_config_dir,db_name), 'delimiter': ',', 'db':'{0}'.format(db_name),'table':'entity'      , 'columns':[ 'id', 'name'     , 'division'   , 'group'    , 'location' , 'parent_id'                                                ]},
+{'file': '{0}/{1}/group.txt'     .format(db_config_dir,db_name), 'delimiter': ',', 'db':'{0}'.format(db_name),'table':'group'       , 'columns':[ 'id', 'name'     , 'display'    , 'order'    , 'entity_id'                                                             ]},
+{'file': '{0}/{1}/link.txt'      .format(db_config_dir,db_name), 'delimiter': ',', 'db':'{0}'.format(db_name),'table':'link'        , 'columns':[ 'id', 'method_id', 'title'      , 'group_id'                                                                           ]},
+{'file': '{0}/{1}/methods.txt'   .format(db_config_dir,db_name), 'delimiter': ',', 'db':'{0}'.format(db_name),'table':'methods'     , 'columns':[ 'id', 'title'    , 'description', 'header'   , 'footer'   , 'theme'    , 'input_module', 'display_module', 'auto_run'  ]},
+{'file': '{0}/{1}/methods.txt'   .format(db_config_dir,db_name), 'delimiter': ',', 'db':'{0}'.format(db_name),'table':'permissions' , 'columns':[ 'id', 'type'     , 'parent'     , 'child'    , 'deny'                                                                  ]},
 ]
 
 
@@ -42,7 +47,9 @@ class ddb_query_geany:
         
 
     # create a table
-    def create_table(self):
+    def create_table(self,temp=None):
+        if temp:
+            return "CREATE TEMPORARY TABLE {0} ('{3}') file='{1}' delimiter='{2}'".format(self.get_table(),self.file,self.delimiter,"','".join(self.columns))
         return "CREATE TABLE {0} ('{3}') file='{1}' delimiter='{2}'".format(self.get_table(),self.file,self.delimiter,"','".join(self.columns))
 
     #  drop a table from the database
@@ -106,14 +113,14 @@ class ddb_query_geany:
 
 
 def initdb(table_defs):
-    queries=[]
+    if CREATE_DB==True:
+        e=ddb.engine(debug=None,config_dir=db_config_dir)
+    
     for table in table_defs:
-        #print(table)
         t=table
         crud=ddb_query_geany(t['db'],t['table'],t['file'],t['columns'],t['delimiter'])
-        queries.append(crud.create_table()+";")
-        e=ddb.engine()
-        e.query( ";".join(queries) )
+        res=e.query(crud.create_table(temp=None))
+        res.debug();
     return e
 
 def test_crud():

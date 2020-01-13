@@ -1,0 +1,1 @@
+create table 'wattle'.'link' ('id','method_id','title','group_id') file='db/wattle/link.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 

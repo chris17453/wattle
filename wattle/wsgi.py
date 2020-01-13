@@ -1,4 +1,4 @@
-from flask import Flask, request, send_from_directory, jsonify, render_template
+from flask import Flask, request, send_from_directory, jsonify, render_template, session
 from flask_cors import CORS
 #from flask_login import LoginManager 
 from .crud import tables, ddb_query_geany, initdb
@@ -17,10 +17,6 @@ def create_app():
 
     app.config['SECRET_KEY'] = 'thefirstandlastthingithinkofisapasswordforyou'
 
-    
-
-
-
     login_manager = LoginManager()
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
@@ -29,9 +25,18 @@ def create_app():
 
     @login_manager.user_loader
     def load_user(user_id):
-        # since the user_id is just the primary key of our user table, use it in the query for the user
-        return get_user_by_id(int(user_id))
+        try:
+            user=get_user_by_id(user_id)
 
+        except Exception as ex:
+            user=None
+            pass
+        
+        return user
+
+    @login_manager.request_loader
+    def request_loader(request):
+        return load_user(session['id'])
 
     # blueprint for auth routes in our app
     from .auth import auth as auth_blueprint
