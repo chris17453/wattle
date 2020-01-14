@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Wattle</title>
+    <title>{{title}}</title>
     <!-- Bootstrap core CSS -->
     <link href="/media/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -58,20 +58,28 @@
         <div class="hero-head">
             <nav class="navbar">
                 <div class="container">
-                    <div id="navbarMenuHeroA" class="navbar-menu">
+                    <div id="navbarMenuHeroA" class="navbar-menu  navbar-dark bg-dark">
                         <div class='navbar-start'>
-                        {% if current_user.is_authenticated%}
+                            {% if current_user.is_authenticated%}
 
-                            <a href="{{ url_for('static.home') }}" class="navbar-item">
-                                Home
-                            </a>
-                        {% endif %}
-
-                        {% if not current_user.is_authenticated%}
-                            <a href="{{ url_for('static.unauth') }}" class="navbar-item">
-                                Home
-                            </a>
+                                <a href="{{ url_for('static.home') }}" class="navbar-item">
+                                    Home
+                                </a>
                             {% endif %}
+
+                            {% if not current_user.is_authenticated%}
+                                <a href="{{ url_for('static.unauth') }}" class="navbar-item">
+                                    Home
+                                </a>
+                            {% endif %}
+                            {% if current_user.is_authenticated %}
+                            <a href="{{ url_for('static.bam_IP4BLOCKS') }}" class="navbar-item">
+                                View IP4Blocks
+                            </a>
+                            <a href="{{ url_for('static.bam_IP4BLOCKS_import') }}" class="navbar-item">
+                                Import IP4Block
+                            </a>
+                    {% endif %}
 
                         </div>
                         <div class="navbar-end">

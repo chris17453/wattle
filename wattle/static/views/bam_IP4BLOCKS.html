@@ -1,0 +1,82 @@
+<!-- templates/login.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+th.rotate {
+  /* Something you can count on */
+  height: 200px;
+  white-space: nowrap;
+}
+
+th.rotate > div {
+  transform:  rotate(270deg)
+     translate(5px, 0px);
+  width: 30px;
+  height: 0px;
+}
+th.rotate > div > span {
+  border-bottom: 1px solid #ccc;
+  padding: 5px 10px;
+}
+</style>
+<div class="column ">
+    <h3 class="title">IP4 Blocks</h3>
+    <div class="box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="notification is-danger">
+                {{ messages[0] }}
+            </div>
+        {% endif %}
+        {% endwith %}
+
+        <table class="table">
+            <thead>
+
+                <tr>
+                {% set index=0 %}
+                {% for column in blocks[0] %}
+                    {% if loop.index < 4 %}
+                        <th class=''><div><span>{{column}}</span></div></th>
+                    {% else %}
+                        <th class='rotate'><div><span>{{column}}</span></div></th>
+                    {% endif %}
+                {% endfor %}
+                </tr>
+
+
+            </thead>
+            <tbody>
+
+            {% for row in blocks %}
+                <tr>
+                {% for column in row %}
+                    <td>
+
+                    {% if row[column] == 'enable' %}                
+                    x
+                    {% elif row[column] == 'disable' %}
+                    &nbsp;
+                    {% elif row[column] == 'true' %}
+                    x
+                    {% elif row[column] == 'false' %}
+                    &nbsp;
+                    {% elif row[column] == None %}
+                    &nbsp;
+                    {% else %}
+                       {{row[column]}}
+                    {% endif %}
+                    
+                    </td> 
+                
+                
+                {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>    
+        </table>
+    </div>
+</div>
+{% endblock %}
