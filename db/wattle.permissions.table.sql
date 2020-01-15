@@ -1,1 +1,1 @@
-create table 'wattle'.'permissions' ('id','type','parent','child','deny') file='db/wattle/methods.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 
+create table 'wattle'.'permissions' ('id','type','parent','child','deny') file='db/wattle/permissions.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 

@@ -13,7 +13,14 @@ def unauth():
 @static.route('/home')
 @login_required
 def home():
-    return render_template("home.html",title="Home")
+    menus=[
+    {'type':'link','name':'Home'    ,'display':'Home'     ,'url':'#1','id':'menu_1'},
+    {'type':'menu','name':'Entity'  ,'display':'Entity'   ,'url':'#1','id':'menu_1','links': [{'name':'z','display':'y','url':'#8'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
+    {'type':'menu','name':'Group'   ,'display':'Group'    ,'url':'#2','id':'menu_2','links': [{'name':'z','display':'y','url':'#7'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
+    {'type':'menu','name':'Location','display':'Location' ,'url':'#3','id':'menu_3','links': [{'name':'z','display':'y','url':'#6'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
+    {'type':'menu','name':'Method'  ,'display':'Method'   ,'url':'#4','id':'menu_4','links': [{'name':'z','display':'y','url':'#5'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
+    ]
+    return render_template("home.html",title="Home",menus=menus,brand='Wattle')
 
 @static.route('/login')
 def login():

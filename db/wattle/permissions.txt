@@ -1,0 +1,5 @@
+# id,type,parent,child,deny
+1,group,0, ,0
+1,link,0, ,0
+
+FORM

@@ -1,0 +1,55 @@
+<style>
+
+
+</style>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">{{brand}}</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-start">
+                {% if not current_user.is_authenticated%}
+                    <a href="{{ url_for('static.unauth') }}" class="navbar-item">Home</a>
+                {% endif %}
+
+                {% if current_user.is_authenticated %}
+                    <ul class="navbar-nav mr-auto">    
+                    {% for menu in menus %}
+                        {% if menu['type']=='menu' %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="{{menu['id']}}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ menu['display'] }}
+                                </a>
+                                <div class="dropdown-menu bg-dark dropdown-primary" aria-labelledby="{{menu['id']}}">
+                                    {% for link in menu['links'] %}
+                                    <a href="{{ link['url'] }}" class="dropdown-item ">{{ link['display'] }}</a>
+                                    {% endfor %}
+                                </div>
+                            </li>
+                        {% else %}
+                            <li>
+                            <a href="{{ menu['url'] }}" class="nav-item nav-link">{{ menu['display'] }}</a>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                    
+                {% endif %}
+            </div>
+            <div class="navbar-end">
+                {% if current_user.is_authenticated %}
+                    <span class="navbar-item">Logged In</span>
+                {% endif %}
+                {% if not url %}
+                    {% if not current_user.is_authenticated%}
+                    <a href="{{ url_for('auth.login') }}" class="navbar-item">Login</a>
+                    {% endif %}
+                {% endif %}
+                
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('auth.logout') }}" class="navbar-item">Logout</a>
+                {% endif %}
+            </div>
+        </div>
+</nav>

@@ -1,1 +1,11 @@
 # id,method_id,title,group_id
+
+1, 10, Methods      , 1
+2, 20, Users        , 1
+3, 30, Groups       , 1
+4, 40, Location     , 1
+5, 50, Entity       , 1
+6, 60, Repo         , 1
+7, 70, Secret       , 1
+8, 80, Plugin       , 1
+
