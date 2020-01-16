@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template, redirect, url_for, request , send_from_directory
+from flask import Blueprint, render_template, redirect, url_for, request , send_from_directory, session
 from flask_login import login_user, logout_user, login_required
 #from .models import User
+from . import db
 
 static = Blueprint('static', __name__,
     static_folder = "./static",
@@ -13,13 +14,14 @@ def unauth():
 @static.route('/home')
 @login_required
 def home():
-    menus=[
-    {'type':'link','name':'Home'    ,'display':'Home'     ,'url':'#1','id':'menu_1'},
-    {'type':'menu','name':'Entity'  ,'display':'Entity'   ,'url':'#1','id':'menu_1','links': [{'name':'z','display':'y','url':'#8'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
-    {'type':'menu','name':'Group'   ,'display':'Group'    ,'url':'#2','id':'menu_2','links': [{'name':'z','display':'y','url':'#7'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
-    {'type':'menu','name':'Location','display':'Location' ,'url':'#3','id':'menu_3','links': [{'name':'z','display':'y','url':'#6'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
-    {'type':'menu','name':'Method'  ,'display':'Method'   ,'url':'#4','id':'menu_4','links': [{'name':'z','display':'y','url':'#5'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
-    ]
+    menus=menu(session['id'])
+    #menus=[
+    #{'type':'link','name':'Home'    ,'display':'Home'     ,'url':'#1','id':'menu_1'},
+    #{'type':'menu','name':'Entity'  ,'display':'Entity'   ,'url':'#1','id':'menu_1','links': [{'name':'z','display':'y','url':'#8'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
+    #{'type':'menu','name':'Group'   ,'display':'Group'    ,'url':'#2','id':'menu_2','links': [{'name':'z','display':'y','url':'#7'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
+    #{'type':'menu','name':'Location','display':'Location' ,'url':'#3','id':'menu_3','links': [{'name':'z','display':'y','url':'#6'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
+    #{'type':'menu','name':'Method'  ,'display':'Method'   ,'url':'#4','id':'menu_4','links': [{'name':'z','display':'y','url':'#5'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
+    #]
     return render_template("home.html",title="Home",menus=menus,brand='Wattle')
 
 @static.route('/login')
@@ -31,6 +33,68 @@ def bam_IP4BLOCKS_import():
     blocks=[]
     return render_template("bam_IP4BLOCKS_import.html",blocks=blocks,title="IP4Blocks Import")
 
+
+
+
+
+
+
+
+def menu(account_id):
+    permissions={}
+    groups={}
+    link={}
+    parameters={}
+    group_where=[]
+    group_membership_where=[]
+
+    # get groups for user
+    res=db.query("select group_id from wattle.group_membership where account_id=@account_id",{'@account_id':account_id})
+    # no gorups
+    if res.data_length>0:
+        for row in res.data:
+            group_id=row['data']['group_id'].strip()
+            groups[group_id]={'id':group_id,'type':'menu','name':group_id,'display':'UNK','links':[],'ordinal':0}  
+            group_where.append('id=@group_id_{0}'.format(group_id))
+            group_membership_where.append('group_id=@group_id_{0}'.format(group_id))
+            parameters['@group_id_{0}'.format(group_id)]=group_id
+
+        # OK we have the groups... now pull the links
+        if len(groups)>0:
+            where_clause="where "+" or ".join(group_where)
+            res=db.query("select id,display,ordinal from wattle.group  {0} ".format(where_clause),parameters)
+            if res.data_length>0:
+                for row in res.data:
+                    group_id_2=row['data']['id']
+                    groups[group_id_2]['display']=row['data']['display']
+                    groups[group_id_2]['ordinal']=row['data']['ordinal']
+            
+
+                where_clause="where "+" or ".join(group_membership_where)
+                where_clause=""
+                res=db.query("select id,display,method_id,group_id,ordinal from wattle.link {0} ".format(where_clause),parameters)
+            
+                if res.data_length>0:
+                    for row in res.data:
+                        link_id     =row['data']['id']
+                        group_id    =row['data']['group_id']
+                        method_id   =row['data']['method_id']
+                        link_display=row['data']['display']
+                        ordinal     =row['data']['ordinal']
+                        groups[group_id]['links'].append({'type':'link','display':link_display,'id':link_id,'method_id':method_id,'group_id':group_id,'url':method_url,'ordinal':ordinal})
+
+                    # Sort the mess by menu ordinal, then link ordinal
+                    group2=[]
+                    for group in groups:
+                        group2.append(groups[group])
+
+                    group3=sorted(group2, key=lambda group: int(group['ordinal']))
+                    for group in group3:
+                        group['links']=sorted(group['links'],key=lambda link: int(link['ordinal']))
+
+                    return group3
+                    
+    return None
 
 @static.route('/bam/ipblocks/list')
 def bam_IP4BLOCKS():

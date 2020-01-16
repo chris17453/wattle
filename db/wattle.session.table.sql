@@ -1,1 +1,0 @@
-create table 'wattle'.'session' ('user_id') file='db/wattle/session.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 

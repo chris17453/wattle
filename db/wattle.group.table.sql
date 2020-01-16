@@ -1,1 +1,1 @@
-create table 'wattle'.'group' ('id','name','display','order','entity_id') file='db/wattle/group.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 
+create table 'wattle'.'group' ('id','name','display','order','entity_id','ordinal') file='db/wattle/group.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 

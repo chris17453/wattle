@@ -1,2 +1,2 @@
-# id,title,description,header,footer,theme,input_module,display_module,auto_run
-1,Create Method, Add a new thing,HEader,Footer,Theme,input,module,display,auto
+# id,title,description,url,header,footer,theme,input_module,display_module,auto_run
+1,Create Method, Add a new thing,entity/method,Header,Footer,Theme,input,module,display,auto

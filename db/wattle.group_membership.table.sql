@@ -1,0 +1,1 @@
+create table 'wattle'.'group_membership' ('id','account__id','group_id','deny') file='db/wattle/group_membership.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 
