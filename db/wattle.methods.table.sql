@@ -1,1 +1,1 @@
-create table 'wattle'.'methods' ('id','title','description','header','footer','theme','input_module','display_module','auto_run') file='db/wattle/methods.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 
+create table 'wattle'.'methods' ('id','name','display','description','url','header','footer','theme','input_module','display_module','auto_run') file='db/wattle/methods.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 

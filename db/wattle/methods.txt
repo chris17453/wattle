@@ -1,2 +1,9 @@
-# id,title,description,url,header,footer,theme,input_module,display_module,auto_run
-1,Create Method, Add a new thing,entity/method,Header,Footer,Theme,input,module,display,auto
+# id,name,display,description,url,header,footer,theme,input_module,display_module,auto_run
+10,Methods ,Methods ,Method,{{ entity_display }}/{{ method_display }} ,Header,Footer,Theme,input,module,display,auto
+20,Users   ,Users   ,Method,{{ entity_display }}/{{ method_display }}   ,Header,Footer,Theme,input,module,display,auto
+30,Groups  ,Groups  ,Method,{{ entity_display }}/{{ method_display }}  ,Header,Footer,Theme,input,module,display,auto
+40,Location,Location,Method,{{ entity_display }}/{{ method_display }},Header,Footer,Theme,input,module,display,auto
+50,Entity  ,Entity  ,Method,{{ entity_display }}/{{ method_display }}  ,Header,Footer,Theme,input,module,display,auto
+60,Repo    ,Repo    ,Method,{{ entity_display }}/{{ method_display }}    ,Header,Footer,Theme,input,module,display,auto
+70,Secret  ,Secret  ,Method,{{ entity_display }}/{{ method_display }}  ,Header,Footer,Theme,input,module,display,auto
+80,Plugin  ,Plugin  ,Method,{{ entity_display }}/{{ method_display }}  ,Header,Footer,Theme,input,module,display,auto

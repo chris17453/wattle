@@ -91,7 +91,7 @@ class user:
     is_authenticated=False
     is_active=False
     is_anonymous=True
-
+    entity_id=0
 
     id="UNK"
     def __init__(self):
@@ -99,13 +99,15 @@ class user:
 
     def login(self,account,token):
         try:
-            res=db.query("SELECT id,account,token,active from wattle.account where account=@account and token=@token  LIMIT 1",{'@account':account,'@token':token})
+            res=db.query("SELECT id,account,token,entity_id,active from wattle.account where account=@account and token=@token  LIMIT 1",{'@account':account,'@token':token})
             if res.data_length==0:
                 return None;
             data=res.data[0]['data']
             self.id       =data['id']
             self.account  =data['account']
             self.token    =data['token']
+            self.entity_id=data['entity_id']
+            self.load_entity()
             self.logged_in=True
 
             self.is_authenticated=True
@@ -118,12 +120,19 @@ class user:
             pass
 
     def load_by_id(self,id):
-        res=db.query("SELECT account,token from wattle.account where id=@account_id LIMIT 1",{'@account_id':id})
+        res=db.query("SELECT account,token,entity_id from wattle.account where id=@account_id LIMIT 1",{'@account_id':id})
         data=account=res.data[0]['data']
         account=data['account']
         token=data['token']
+        self.entity_id=data['entity_id']
+        self.load_entity()
         self.login(account,token)
+    
+    def load_entity(self):
+        res=db.query("SELECT * from wattle.entity where id=@entity_id LIMIT 1",{'@entity_id':self.entity_id})
         
+        data=res.data[0]['data']
+        self.entity=data
 
     
     def get_id(self):

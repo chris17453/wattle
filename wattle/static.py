@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, request , send_from_directory, session
 from flask_login import login_user, logout_user, login_required
 #from .models import User
-from . import db
+from . import db 
 
 static = Blueprint('static', __name__,
     static_folder = "./static",
@@ -15,18 +15,12 @@ def unauth():
 @login_required
 def home():
     menus=menu(session['id'])
-    #menus=[
-    #{'type':'link','name':'Home'    ,'display':'Home'     ,'url':'#1','id':'menu_1'},
-    #{'type':'menu','name':'Entity'  ,'display':'Entity'   ,'url':'#1','id':'menu_1','links': [{'name':'z','display':'y','url':'#8'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
-    #{'type':'menu','name':'Group'   ,'display':'Group'    ,'url':'#2','id':'menu_2','links': [{'name':'z','display':'y','url':'#7'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
-    #{'type':'menu','name':'Location','display':'Location' ,'url':'#3','id':'menu_3','links': [{'name':'z','display':'y','url':'#6'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
-    #{'type':'menu','name':'Method'  ,'display':'Method'   ,'url':'#4','id':'menu_4','links': [{'name':'z','display':'y','url':'#5'},{'name':'z','display':'y','url':'#'},{'name':'z','display':'y','url':'#'}]},
-    #]
     return render_template("home.html",title="Home",menus=menus,brand='Wattle')
 
 @static.route('/login')
 def login():
-    return render_template("login.html",url="login",title="Login")
+    login_title="Login"
+    return render_template("login.html",url="login",title="Login",login_title=login_title)
 
 @static.route('/bam/ipblocks/import')
 def bam_IP4BLOCKS_import():
@@ -34,67 +28,134 @@ def bam_IP4BLOCKS_import():
     return render_template("bam_IP4BLOCKS_import.html",blocks=blocks,title="IP4Blocks Import")
 
 
+@static.route('/m/<entity>/<method>')
+@login_required
+def method_loader(entity,method):
+    menus=menu(session['id'])
+    return render_template("method.html",menus=menus)
 
 
 
 
 
 
-def menu(account_id):
-    permissions={}
-    groups={}
-    link={}
-    parameters={}
-    group_where=[]
-    group_membership_where=[]
-
-    # get groups for user
+def get_group_membership_by_id(account_id):
     res=db.query("select group_id from wattle.group_membership where account_id=@account_id",{'@account_id':account_id})
     # no gorups
+    groups={}
     if res.data_length>0:
         for row in res.data:
             group_id=row['data']['group_id'].strip()
             groups[group_id]={'id':group_id,'type':'menu','name':group_id,'display':'UNK','links':[],'ordinal':0}  
+        return groups
+
+    return None
+
+def get_groups_by_list(groups):
+    # OK we have the groups... now pull the links
+    if groups and len(groups)>0:
+        group_where=[]
+        parameters={}
+        for group in groups:
+            group_id=groups[group]['id']
             group_where.append('id=@group_id_{0}'.format(group_id))
+            parameters['@group_id_{0}'.format(group_id)]=group_id
+
+        where_clause="where "+" or ".join(group_where)
+        res=db.query("select id,display,ordinal from wattle.group  {0} ".format(where_clause),parameters)
+        if res.data_length>0:
+            for row in res.data:
+                group_id=row['data']['id']
+                groups[group_id]['display']=row['data']['display']
+                groups[group_id]['ordinal']=row['data']['ordinal']
+            return groups
+    return None
+
+def get_methods_by_list(method_list):
+    if method_list:
+        methods={}
+        methods_where=[]
+        parameters={}
+        for method in method_list:
+            methods_where.append('id=@method_id_{0}'.format(method))
+            parameters['@method_id_{0}'.format(method)]=method
+
+        where_clause="where "+" or ".join(methods_where)
+        res=db.query("select id,display,name,url from wattle.methods {0}".format(where_clause),parameters)
+        if res.data_length!=0:
+            for row in res.data:
+                method_id=row['data']['id']
+                display  =row['data']['display']
+                name     =row['data']['name']
+                url      =row['data']['url']
+                if 'entity_display' in session:
+                    entity_display=session['entity_display']
+                else :
+                    entity_display=''
+                url=url.replace("{{ entity_display }}",str(entity_display))
+                url="/m/"+url.replace("{{ method_display }}",display)
+                methods[method_id]={'method_id':method_id,'display':display,'name':name,'url':url}
+            return methods
+    return None
+
+def get_links_by_group_list(groups):
+    # OK we have the groups... now pull the links
+    group_membership_where=[]
+    parameters={}
+    if groups and len(groups)>0:
+        for group in groups:
+            group_id=groups[group]['id']
             group_membership_where.append('group_id=@group_id_{0}'.format(group_id))
             parameters['@group_id_{0}'.format(group_id)]=group_id
 
-        # OK we have the groups... now pull the links
-        if len(groups)>0:
-            where_clause="where "+" or ".join(group_where)
-            res=db.query("select id,display,ordinal from wattle.group  {0} ".format(where_clause),parameters)
+            where_clause="where "+" or ".join(group_membership_where)
+            res=db.query("select id,display,method_id,group_id,ordinal from wattle.link {0} ".format(where_clause),parameters)
+        
             if res.data_length>0:
+                methods={}
                 for row in res.data:
-                    group_id_2=row['data']['id']
-                    groups[group_id_2]['display']=row['data']['display']
-                    groups[group_id_2]['ordinal']=row['data']['ordinal']
-            
+                    methods[row['data']['method_id']]=row['data']['method_id']
+                methods=get_methods_by_list(methods)
+                for row in res.data:
+                    link_id     =row['data']['id']
+                    group_id    =row['data']['group_id']
+                    method_id   =row['data']['method_id']
+                    link_display=row['data']['display']
+                    ordinal     =row['data']['ordinal']
+                    # maybe the method doesnt exist?
+                    if methods==None or  method_id not in methods:
+                        method_url  ="BOB"
+                    else:
+                        print( method_id)
+                        method_url  =methods[method_id]['url']
+                    groups[group_id]['links'].append({'type':'link','display':link_display,'id':link_id,'method_id':method_id,'group_id':group_id,'url':method_url,'ordinal':ordinal})
 
-                where_clause="where "+" or ".join(group_membership_where)
-                where_clause=""
-                res=db.query("select id,display,method_id,group_id,ordinal from wattle.link {0} ".format(where_clause),parameters)
-            
-                if res.data_length>0:
-                    for row in res.data:
-                        link_id     =row['data']['id']
-                        group_id    =row['data']['group_id']
-                        method_id   =row['data']['method_id']
-                        link_display=row['data']['display']
-                        ordinal     =row['data']['ordinal']
-                        groups[group_id]['links'].append({'type':'link','display':link_display,'id':link_id,'method_id':method_id,'group_id':group_id,'url':method_url,'ordinal':ordinal})
-
-                    # Sort the mess by menu ordinal, then link ordinal
-                    group2=[]
-                    for group in groups:
-                        group2.append(groups[group])
-
-                    group3=sorted(group2, key=lambda group: int(group['ordinal']))
-                    for group in group3:
-                        group['links']=sorted(group['links'],key=lambda link: int(link['ordinal']))
-
-                    return group3
-                    
+                return groups
     return None
+
+def sort_groups(groups):
+    # Sort the mess by menu ordinal, then link ordinal
+    if groups:
+        group2=[]
+        for group in groups:
+            group2.append(groups[group])
+
+        group2=sorted(group2, key=lambda group: int(group['ordinal']))
+        for group in group2:
+            group['links']=sorted(group['links'],key=lambda link: int(link['ordinal']))
+
+        return group2
+    
+    return None
+
+
+def menu(account_id):
+    groups=get_group_membership_by_id(account_id)
+    groups=get_groups_by_list(groups)
+    groups=get_links_by_group_list(groups)
+    groups=sort_groups(groups)
+
+    return groups
 
 @static.route('/bam/ipblocks/list')
 def bam_IP4BLOCKS():
