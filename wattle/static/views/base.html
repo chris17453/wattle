@@ -10,15 +10,14 @@
     <link href="/media/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="/media/css/signin.css" rel="stylesheet">
     <script src="/media/jquery-ui/external/jquery/jquery.js"></script>
     <script src="/media/jquery-ui/jquery-ui.min.js"></script>
     <link href="/media/jquery-ui/jquery-ui.css" rel="stylesheet">
     <script src="/media/bootstrap/js/bootstrap.min.js"></script>
-    <link href="/media/css/bluma.min.css" rel="stylesheet">
+    
     
     <style>
-        .hero.is-primary {
+        body {
             background: rgba(2,0,36,1);
         }
     </style>
@@ -54,18 +53,13 @@
       </script>
 </head>
 <body>
-    <section class="hero is-primary is-fullheight">
+    <section class="">
+        {% include 'menu.html' %}
 
-        <div class="hero-head">
-            {% include 'menu.html' %}
-        </div>
-
-        <div class="hero-body">
-            <div class="container has-text-centered">
+            <div class="container">
                {% block content %}
                {% endblock %}
             </div>
-        </div>
     </section>
 </body>
 </html>

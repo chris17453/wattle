@@ -32,7 +32,7 @@ def bam_IP4BLOCKS_import():
 @login_required
 def method_loader(entity,method):
     menus=menu(session['id'])
-    return render_template("method.html",menus=menus)
+    return render_template("method.html",menus=menus,brand=session['entity_display'])
 
 
 

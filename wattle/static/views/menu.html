@@ -1,5 +1,9 @@
 <style>
 
+.dropdown-menu > li > a:hover {
+    background-color: red;
+    background-image: none;
+}
 
 </style>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -9,22 +13,22 @@
         </button>
         
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <div class="navbar-start">
+                <ul class="navbar-nav mr-auto">    
+                    
                 {% if not current_user.is_authenticated%}
-                    <a href="{{ url_for('static.unauth') }}" class="navbar-item">Home</a>
+                    <li class='nav-item'><a href="{{ url_for('static.unauth') }}" class="nav-link">Home</a></li>
                 {% endif %}
 
                 {% if current_user.is_authenticated %}
-                    <ul class="navbar-nav mr-auto">    
                     {% for menu in menus %}
                         {% if menu['type']=='menu' %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" id="{{menu['id']}}" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 {{ menu['display'] }}
                                 </a>
-                                <div class="dropdown-menu bg-dark dropdown-primary" aria-labelledby="{{menu['id']}}">
+                                <div class="dropdown-menu bg-dark dropdown-primary inverse" aria-labelledby="{{menu['id']}}">
                                     {% for link in menu['links'] %}
-                                    <a href="{{ link['url'] }}" class="dropdown-item ">{{ link['display'] }}</a>
+                                    <a href="{{ link['url'] }}" class="dropdown-item bg-dark nav-link">{{ link['display'] }}</a>
                                     {% endfor %}
                                 </div>
                             </li>
@@ -34,22 +38,29 @@
                             </li>
                         {% endif %}
                     {% endfor %}
-                    
                 {% endif %}
-            </div>
-            <div class="navbar-end">
-                {% if current_user.is_authenticated %}
-                    <span class="navbar-item">Logged In</span>
-                {% endif %}
+                </ul>
+
+                <ul class="nav navbar-nav navbar-right">
                 {% if not url %}
                     {% if not current_user.is_authenticated%}
-                    <a href="{{ url_for('auth.login') }}" class="navbar-item">Login</a>
-                    {% endif %}
+                    <li class="nav-item"><a href="{{ url_for('auth.login') }}" class="nav-link">Login</a></li>                    {% endif %}
                 {% endif %}
                 
                 {% if current_user.is_authenticated %}
-                    <a href="{{ url_for('auth.logout') }}" class="navbar-item">Logout</a>
+                    <!--
+                <li>
+                    <form class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+                </li>
+                -->
+                <li class="nav-item"><a href="{{ url_for('auth.logout') }}" class="nav-link">Logout</a></li>
                 {% endif %}
+                </ul>
+                {% if current_user.is_authenticated %}
+                {% endif %}
+                                
             </div>
-        </div>
 </nav>

@@ -1,0 +1,34 @@
+
+MENU
+o URL FROM METHODS-
+o clickable links
+o UI color fixed
+o menu single button/link no dropdown
+METHODS
+- view configuration
+- add modules
+- save module configuration
+- load module configuration
+- list methods
+- delete methods
+- deny methods
+
+Entity
+- CRUD
+Locaiton
+- CRUD
+Group
+- CRUD
+USER
+- CRUD
+Permission
+- CRUD
+Repos
+- CRUD
+Secret
+- Crud
+Module 
+- Crud
+
+Custon USER login URL per module?
+
