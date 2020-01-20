@@ -1,0 +1,282 @@
+<!-- templates/index.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<style>
+
+#wrapper {
+  padding-left: 200px;
+  transition: all 0.4s ease 0s;
+  
+}
+.sidebar-font{
+    font-family: sans-serif !important;
+}
+#sidebar-wrapper {
+  border-right-width:1px;
+  border-right-style:solid;
+  border-right-color:grey;
+  margin-left: -200px;
+  left: 200px;
+  width: 200px;
+  background: #000;
+  position: fixed;
+  height: 100%;
+  overflow-y: auto;
+  transition: all 0.4s ease 0s;
+}
+
+#wrapper.active {
+  padding-left: 0;
+}
+
+#wrapper.active #sidebar-wrapper {
+  left: 0;
+}
+
+#page-content-wrapper {
+  width: 100%;
+}
+
+
+
+.sidebar-nav {
+  position: absolute;
+  top: 0;
+  width: 250px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.sidebar-nav ul{
+    width:200px;
+}
+
+.sidebar-nav li {
+  line-height: 40px;
+  text-indent: 20px;
+  width:200px;
+}
+
+.sidebar-nav li a {
+  color: #999999;
+  display: block;
+  text-decoration: none;
+  padding-left: 20px;
+  
+}
+
+.sidebar-nav li a span:before {
+  position: absolute;
+  left: 0;
+  color: #41484c;
+  text-align: center;
+  width: 20px;
+  line-height: 18px;
+}
+
+.sidebar-nav li a:hover,
+.sidebar-nav li.active {
+  color: #fff;
+  background: rgba(255,255,255,0.2);
+  text-decoration: none;
+}
+
+.sidebar-nav li a:active,
+.sidebar-nav li a:focus {
+  text-decoration: none;
+}
+
+.sidebar-nav > .sidebar-brand {
+  height: 65px;
+  line-height: 60px;
+  font-size: 18px;
+}
+
+.sidebar-nav > .sidebar-brand a {
+  color: #999999;
+}
+
+.sidebar-nav > .sidebar-brand a:hover {
+  color: #fff;
+  background: none;
+}
+
+
+
+.content-header {
+  height: 65px;
+  line-height: 65px;
+}
+
+.content-header h1 {
+  margin: 0;
+  margin-left: 20px;
+  line-height: 65px;
+  display: inline-block;
+}
+
+#menu-toggle {
+    text-decoration: none;
+}
+
+.btn-menu {
+  color: #000;
+} 
+
+.inset {
+  padding: 20px;
+}
+
+@media (max-width:767px) {
+
+#wrapper {
+  padding-left: 0;
+}
+
+#sidebar-wrapper {
+  left: 0;
+}
+
+#wrapper.active {
+  position: relative;
+  left: 250px;
+}
+
+#wrapper.active #sidebar-wrapper {
+  left: 250px;
+  width: 250px;
+  transition: all 0.4s ease 0s;
+}
+
+#menu-toggle {
+  display: inline-block;
+}
+
+.inset {
+  padding: 15px;
+}
+}
+.anchor_pad {
+    padding-top:70px!important;
+    margin-top:-70px!important;
+}
+
+</style>
+<div id="wrapper" class="bdy">
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <nav id="spy">
+                <ul class="sidebar-nav nav">
+                    <li>
+                        <a href="#Definition"><span class="fa fa-home solo">&nbsp;</span>Definition</a>
+                    </li>
+                    <li>
+                        <a href="#Theme" data-scroll><span class="fa fa-anchor solo">&nbsp;</span>Theme</a>
+                    </li>
+                    <li>
+                            <a href="#Input" data-scroll> <span class="fa fa-anchor solo">&nbsp;</span>Input</a>
+                        </li>
+                        <li>
+                                <a href="#Workflow" data-scroll> <span class="fa fa-anchor solo">&nbsp;</span>Workflow</a>
+                    </li>
+                    <li>
+                        <a href="#Output" data-scroll><span class="fa fa-anchor solo">&nbsp;</span>Output</a>
+                        </li>
+                        <li>
+                                <a href="#Maintenance" data-scroll>
+                                        <span class="fa fa-anchor solo">&nbsp;</span>Maintenance</a>
+                                </li>
+                        
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Page content -->
+        <div id="page-content-wrapper" class="pt-3 pl-3">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <div class="container">
+                        {%- for msg in messages %}
+                            <div class="alert alert-warning alert-dismissible fade show">
+                                <strong>Notice!</strong> {{ msg }}.
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            </div>
+                        {% endfor -%}
+                </div>                
+            {% endif %}
+                {% endwith %}
+            <form Method="POST">
+                {% include "method/define.html" %}
+                {% include "method/theme.html" %}
+                {% include "method/input.html" %}
+                {% include "method/engine.html" %}
+                {% include "method/output.html" %}
+                {% include "method/maintenance.html" %}
+                <section class="row"> 
+                    <div class="col">
+                        <div class="mr-2 mb-2 p-2">
+                            <div class="form-group">
+                                <div class="float-left">
+                                <button  type="submit" class="btn btn-primary">Cancel</button>
+                            </div>
+                            <div class="float-right">
+                                <button  type="submit" class="btn btn-primary">Apply</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </section>
+                
+                
+            </form>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+</div>
+
+{% endblock %}

@@ -23,8 +23,8 @@ def login():
         login_user(user, remember=remember)
         session['id']=user.id
         session['entity_id']=user.entity_id
-        session['entity_display']=user.entity['display']
-        print(session)
+        session['entity']=user.entity
+        #print(session)
 
     except Exception as ex:
         print("Auth Exception: {0}".format(ex))

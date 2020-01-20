@@ -93,18 +93,7 @@
         outline: none!important;
         border: none;
     }
-    .notification {
-        padding:15px;
-        font-family:sans-serif;
-        font-size:16px;
-        font-weight: bold;
 
-    }
-    .is-danger{
-        background:red;
-        color:white;
-        text-align: center;
-    }
 </style>
 <div class="wrapper mx-auto">
     <div class="login-image">
@@ -112,14 +101,19 @@
                 {{ login_title }}
         </span>
     </div>
-
     {% with messages = get_flashed_messages() %}
     {% if messages %}
-        <div class="notification is-danger">
-            {{ messages[0] }}
-        </div>
-    {% endif %}
+    <div class="container">
+            {%- for msg in messages %}
+                <div class="alert alert-warning alert-dismissible fade show">
+                    <strong>Notice!</strong> {{ msg }}.
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                </div>
+            {% endfor -%}
+    </div>                
+{% endif %}
     {% endwith %}
+   
     <form method="POST" action="/login">
         <div class="field">
             <div class="control">

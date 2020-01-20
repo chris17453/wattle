@@ -1,0 +1,25 @@
+<div class="anchor_pad" id="Output">
+<section class="bg-dark mr-2 mb-2 p-2 rounded">
+    <div class='col-md-6'>
+        <h2>Output</h2>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Display Plugin</label>
+            <div class="col-md-8 inputGroupContainer">
+                <div class="input-group">
+                    <span class="input-group-addon" style="max-width: 100%;"><i
+                            class="glyphicon glyphicon-list"></i></span>
+                    <select class="selectpicker form-control" name="method_output">
+                            <option {% if method_output == 'Table'    %} {% endif %}value='Table'>Table</option>
+                            <option {% if method_output == 'Calendar' %} {% endif %}value='Calendar'>Calendar</option>
+                            <option {% if method_output == 'XLS'      %} {% endif %}value='XLS'>XLS</option>
+                            <option {% if method_output == 'CSV'      %} {% endif %}value='CSV'>CSV</option>
+                            <option {% if method_output == 'JSON'     %} {% endif %}value='JSON'>JSON</option>
+                            <option {% if method_output == 'XML'      %} {% endif %}value='XML'>XML</option>
+                            <option {% if method_output == 'YAML'     %} {% endif %}value='YAML'>YAML</option>
+                        </select>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>

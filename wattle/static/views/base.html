@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html>
-
+<html style="height:100%">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,18 +13,53 @@
     <script src="/media/jquery-ui/jquery-ui.min.js"></script>
     <link href="/media/jquery-ui/jquery-ui.css" rel="stylesheet">
     <script src="/media/bootstrap/js/bootstrap.min.js"></script>
-    
+    <link href="/media/fontawesome/css/fontawesome.css" rel="stylesheet">
+    <link href="/media/fontawesome/css/brands.css" rel="stylesheet">
+    <link href="/media/fontawesome/css/solid.css" rel="stylesheet">
     
     <style>
         body {
-            background: rgba(2,0,36,1);
+            /* background: rgba(2,0,36,1); */
+            background: black;
+            color:white;
+            padding-top: 56px;
+            font-family: Sans-serif;
+
         }
+        .nav-edge{
+            border-bottom-width:1px;
+            border-bottom-style:solid;
+            border-bottom-color:grey;
+            
+            
+        }
+
+        .notification {
+        padding:15px;
+        font-family:sans-serif;
+        font-size:16px;
+        font-weight: bold;
+
+    }
+    .is-alert{
+        background:yellowgreen;
+        color:black;
+        text-align: center;
+    }        
+
+        
+
     </style>
     <script type="text/javascript">
       watle=function(){
       }();
       
       $(function() {
+        $('.sidebar-nav a').filter(function(){return this.href==location.href}).parent().addClass('active').siblings().removeClass('active')
+		$('.sidebar-nav a').click(function(){
+			$(this).parent().addClass('active').siblings().removeClass('active')	
+		})
+
         var logout_function=function(e){
           alert("Logout");
         }
@@ -52,14 +86,20 @@
     });      
       </script>
 </head>
-<body>
-    <section class="">
-        {% include 'menu.html' %}
 
-            <div class="container">
-               {% block content %}
-               {% endblock %}
-            </div>
-    </section>
-</body>
+<body class="d-flex flex-column h-100">
+<header>
+    {% include 'menu.html' %}
+</header>
+        <main role="main" class="flex-shrink-0">
+               
+        {% block content %}
+        {% endblock %}
+        </main>
+            <footer class="footer mt-auto py-3 bg-dark" style="z-index:1">
+                <div class="container">
+                  <span class="text-muted">Wattle</span>
+                </div>
+              </footer>
+    </body>
 </html>

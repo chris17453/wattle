@@ -15,6 +15,7 @@ openpyxl = "*"
 pillow = "*"
 flask-login = "*"
 cython = "*"
+wtforms = "*"
 
 [requires]
 python_version = "3.7"
