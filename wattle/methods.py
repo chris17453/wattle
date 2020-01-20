@@ -1,6 +1,7 @@
 from . import db
-from wtforms import Form, BooleanField, StringField, PasswordField, TextAreaField, IntegerField, validators
-
+from flask_wtf import Form 
+from wtforms import BooleanField, StringField, PasswordField, TextAreaField, IntegerField, validators
+from wtforms.validators import InputRequired
 
 # select the method id based on a url entry
 def get_entity_id_by_name(entity_name):
@@ -26,14 +27,16 @@ def get_method(entity_name,method_name):
 
 
 class method_form(Form):
-    method_id     = IntegerField ('method_id',     )
-    description   = StringField  ('description',   )
-    display       = StringField  ('display',       )
-    display_module= StringField  ('display_module',)
-    footer        = TextAreaField('footer',        )
-    header        = TextAreaField('header',        )
-    input_module  = StringField  ('input_module',  )
-    name          = StringField  ('name',          )
-    theme         = StringField  ('theme',         )
-    url           = StringField  ('url',           )
-    auto_run      = BooleanField ('auto_run',      )
+    display       = StringField  ('Display'       ,render_kw={"placeholder": "Web Name","class":'form-control'})
+    name          = StringField  ('Name'          ,render_kw={"placeholder": "Name","class":'form-control'})
+    description   = StringField  ('Description'   ,render_kw={"placeholder": "What does this Method do?","class":'form-control'})
+    url           = StringField  ('URL'           ,render_kw={"placeholder": "The endpoint for this method","class":'form-control'})
+    method_id     = IntegerField ('Method ID'     ,render_kw={"placeholder": "This method's ID","class":'form-control'})
+
+    display_module= StringField  ('Display Module',render_kw={"placeholder": "How the data is displayed","class":'form-control'})
+    input_module  = StringField  ('Engine Module' ,render_kw={"placeholder": "How is the data processed","class":'form-control'})
+    input_module  = StringField  ('Input Module'  ,render_kw={"placeholder": "How is the data collected","class":'form-control'})
+    theme         = StringField  ('Theme'         ,render_kw={"placeholder": "Style","class":'form-control'})
+    footer        = TextAreaField('Footer'        ,render_kw={"placeholder": "Post text","class":'form-control'})
+    header        = TextAreaField('Header'        ,render_kw={"placeholder": "Pre text","class":'form-control'})
+    auto_run      = BooleanField ('Auto Execute'  ,render_kw={"placeholder": "Run on page load?","class":'form-control'})

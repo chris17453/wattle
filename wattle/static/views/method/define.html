@@ -1,35 +1,10 @@
-<div class=" anchor_pad"  id="Definition">
-<section class="bg-dark mr-2 mb-2 p-2 rounded ">
-    <div class='col-md-12'>
-        <h2>Definition</h2>
-        <div class="form-group">
-            <label class="col-md-4 control-label">Method Name</label>
-            <div class="col-md-6 inputGroupContainer">
-                <div class="input-group"><span class="input-group-addon"><i
-                            class="glyphicon glyphicon-user"></i></span><input id="fullName" name="method_name"
-                        placeholder="Unique Reference Name" class="form-control" required="true" value="{{method_name}}" type="text"></div>
-            </div>
-        </div>
+{% set anchor = "Definitions" %}
+{% extends "method/wrapper.html" %}
+{% block content %}
 
-        <div class="form-group">
-            <label class="col-md-4 control-label">Method Display Text</label>
-            <div class="col-md-6 inputGroupContainer">
-                <div class="input-group"><span class="input-group-addon"><i
-                            class="glyphicon glyphicon-user"></i></span><input id="fullName" name="method_display"
-                        placeholder="Display Name" class="form-control" required="true" value="{{method_display}}" type="text"></div>
-            </div>
-        </div>
-        <div class="form-group">
-                <label class="col-md-4 control-label">Method URL (Not editable)</label>
-                <div class="col-md-6 inputGroupContainer">
-                    <div class="input-group"><span class="input-group-addon"><i
-                                class="glyphicon glyphicon-user"></i></span><input id="fullName" name="method_display"
-                            placeholder="URL" class="form-control" required="false" readonly value="{{method_url}}" type="text"></div>
-                </div>
-            </div>
-    
-    </div>
-</section>
+    {{ render_field(form.name) }}
+    {{ render_field(form.display) }}
+    {{ render_field(form.description) }}
+    {{ render_field(form.url) }}
 
-
-</div>
+{% endblock content %}    

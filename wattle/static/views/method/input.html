@@ -1,21 +1,19 @@
-<div class="anchor_pad" id="Input">
-<section class="bg-dark mr-2 mb-2 p-2 rounded">
-        <div class='col-md-6'>
-        <h2>Input</h2>
-        <div class="form-group">
-            <label class="col-md-4 control-label">Display Plugin</label>
-            <div class="col-md-8 inputGroupContainer">
-                <div class="input-group">
-                    <span class="input-group-addon" style="max-width: 100%;"><i
-                            class="glyphicon glyphicon-list"></i></span>
-                    <select class="selectpicker form-control" name="method_output">
-                            <option value='table'>None</option>
-                            <option value='table'>Interactive</option>
-                            <option value='table'>RAW</option>
-                        </select>
-                </div>
-            </div>
+{% set anchor = "Input" %}
+{% extends "method/wrapper.html" %}
+{% block content %}
+<div class="form-group">
+    <label class="col-md-4 control-label">Display Plugin</label>
+    <div class="col-md-8 inputGroupContainer">
+        <div class="input-group">
+            <span class="input-group-addon" style="max-width: 100%;"><i
+                    class="glyphicon glyphicon-list"></i></span>
+            <select class="selectpicker form-control" name="method_output">
+                    <option value='table'>None</option>
+                    <option value='table'>Interactive</option>
+                    <option value='table'>RAW</option>
+                </select>
         </div>
     </div>
-</section>
 </div>
+
+{% endblock content %}    

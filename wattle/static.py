@@ -53,7 +53,7 @@ def method_config(entity,method):
 
     #'name','display','description','url','header','footer','theme','input_module','display_module','auto_run'
     pprint (method)
-    return render_template("configure-method.html",menu=session['menu'],brand=session['brand'])
+    return render_template("configure-method.html",menu=session['menu'],brand=session['brand'],form=form)
 
 
 

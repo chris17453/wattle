@@ -16,6 +16,7 @@ pillow = "*"
 flask-login = "*"
 cython = "*"
 wtforms = "*"
+flask-wtf = "*"
 
 [requires]
 python_version = "3.7"

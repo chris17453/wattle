@@ -1,32 +1,27 @@
-<div class="anchor_pad" id="Maintenance">
-    <section class="bg-dark mr-2 mb-2 p-2 rounded">
-        <div class='col-md-6'>
-            <h2>Maintenance</h2>
-
-            <div class="col-md-12 inputGroupContainer">
-                <div class="form-group white-border">
-                    <label for="method_header">Import Yaml</label>
-                    <textarea class="form-control" name="method_header" rows="3">{{method_import_yaml}}</textarea>
-                </div>
-            </div>
-
-
-            <section class="row"> 
-                <div class="col">
-                    <div class="mr-2 mb-2 p-2">
-                        <div class="form-group">
-                            <div class="float-left">
-                            <button  type="submit" class="btn btn-primary">Import</button>
-                        </div>
-                        <div class="float-right">
-                            <button  type="submit" class="btn btn-primary">Export</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </section>
-
-
-        </div>
-    </section>
+{% set anchor = "Maintenance" %}
+{% extends "method/wrapper.html" %}
+{% block content %}
+<div class="col-md-12 inputGroupContainer">
+    <div class="form-group white-border">
+        <label for="method_header">Import Yaml</label>
+        <textarea class="form-control" name="method_header" rows="3">{{method_import_yaml}}</textarea>
     </div>
+</div>
+
+
+<section class="row"> 
+    <div class="col">
+        <div class="mr-2 mb-2 p-2">
+            <div class="form-group">
+                <div class="float-left">
+                <button  type="submit" class="btn btn-primary">Import</button>
+            </div>
+            <div class="float-right">
+                <button  type="submit" class="btn btn-primary">Export</button>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+{% endblock content %}    
