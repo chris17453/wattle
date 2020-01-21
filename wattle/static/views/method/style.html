@@ -1,0 +1,9 @@
+{% set anchor = "Style" %}
+{% extends "method/wrapper.html" %}
+{% block content %}
+
+    {{ render_field(form.template) }}
+    {{ render_field(form.header) }}
+    {{ render_field(form.footer) }}
+
+{% endblock content %}    

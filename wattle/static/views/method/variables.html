@@ -1,0 +1,9 @@
+{% set anchor = "Variables" %}
+{% extends "method/wrapper.html" %}
+{% block content %}
+
+{% for input in form.input %}
+    {{ render_field(input) }}
+{% endfor %}
+{% endblock content %}    
+

@@ -1,12 +1,9 @@
 {% set anchor = "Maintenance" %}
 {% extends "method/wrapper.html" %}
 {% block content %}
-<div class="col-md-12 inputGroupContainer">
-    <div class="form-group white-border">
-        <label for="method_header">Import Yaml</label>
-        <textarea class="form-control" name="method_header" rows="3">{{method_import_yaml}}</textarea>
-    </div>
-</div>
+
+    {{ render_field(form.yaml) }}
+
 
 
 <section class="row"> 

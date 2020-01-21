@@ -1,0 +1,2 @@
+# id,name,display,location,type,map,group_id,entity_id,created,modified,active
+1,jsoninput,Jsonify Input,tasks/jsonify/jsonify.py,py,0,1,1,,,1

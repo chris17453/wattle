@@ -3,7 +3,7 @@ from flask_login import login_user, logout_user, login_required
 #from .models import User
 from . import db 
 from .menu import menu
-from .methods import get_method, method_form
+from .methods import get_method, method_form, update_method
 
 from pprint import pprint
 
@@ -36,23 +36,30 @@ def method_loader(entity,method):
     
 
     #'name','display','description','url','header','footer','theme','input_module','display_module','auto_run'
-    pprint (method)
+    #pprint (method)
     return render_template("method.html",menu=session['menu'],brand=session['brand'])
 
 
 @static.route('/m/c/<entity>/<method>',methods=['GET', 'POST'])
 @login_required
 def method_config(entity,method):
-    method=get_method(entity,method)
-    if method==None:
-        abort(404)
+    # on initital Load, Pull from database
+    if request.method == 'GET':
+        method=get_method(entity,method)
+        if method==None:
+            abort(404)
 
-    form = method_form(request.form)
-    if request.method == 'POST' and form.validate():
+        form = method_form(**method)
+    else:
+        form = method_form(obj=request.form)
+
+    #and form.validate()
+    if request.method == 'POST' :
         flash("Submitted")
+        update_method(form)
 
     #'name','display','description','url','header','footer','theme','input_module','display_module','auto_run'
-    pprint (method)
+    #pprint (method)
     return render_template("configure-method.html",menu=session['menu'],brand=session['brand'],form=form)
 
 

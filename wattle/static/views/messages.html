@@ -1,0 +1,14 @@
+{% block content %}
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="container">
+        {%- for msg in messages %}
+            <div class="alert alert-warning alert-dismissible fade show">
+                <strong>Notice!</strong> {{ msg }}.
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            </div>
+        {% endfor -%}
+    </div>                
+    {% endif %}
+    {% endwith %}
+{% endblock content %} 

@@ -1,0 +1,1 @@
+create table 'wattle'.'task' ('id','name','display','location','type','map','group_id','entity_id','created','modified','active') file='db/wattle/task.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 

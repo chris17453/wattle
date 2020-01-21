@@ -184,13 +184,13 @@
                         <a href="#Definition"><span class="fa fa-home solo">&nbsp;</span>Definition</a>
                     </li>
                     <li>
-                        <a href="#Theme" data-scroll><span class="fa fa-anchor solo">&nbsp;</span>Theme</a>
+                        <a href="#Style" data-scroll><span class="fa fa-anchor solo">&nbsp;</span>Style</a>
                     </li>
                     <li>
-                            <a href="#Input" data-scroll> <span class="fa fa-anchor solo">&nbsp;</span>Input</a>
+                            <a href="#Variables" data-scroll> <span class="fa fa-anchor solo">&nbsp;</span>Variables</a>
                         </li>
                         <li>
-                                <a href="#Workflow" data-scroll> <span class="fa fa-anchor solo">&nbsp;</span>Workflow</a>
+                                <a href="#Task" data-scroll> <span class="fa fa-anchor solo">&nbsp;</span>Task</a>
                     </li>
                     <li>
                         <a href="#Output" data-scroll><span class="fa fa-anchor solo">&nbsp;</span>Output</a>
@@ -206,23 +206,13 @@
 
         <!-- Page content -->
         <div id="page-content-wrapper" class="pt-3 pl-3">
-                {% with messages = get_flashed_messages() %}
-                {% if messages %}
-                <div class="container">
-                        {%- for msg in messages %}
-                            <div class="alert alert-warning alert-dismissible fade show">
-                                <strong>Notice!</strong> {{ msg }}.
-                                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                            </div>
-                        {% endfor -%}
-                </div>                
-            {% endif %}
-                {% endwith %}
+          {% include "messages.html" %}
+
             <form Method="POST">
                 {% include "method/define.html" %}
-                {% include "method/theme.html" %}
-                {% include "method/input.html" %}
-                {% include "method/engine.html" %}
+                {% include "method/style.html" %}
+                {% include "method/variables.html" %}
+                {% include "method/task.html" %}
                 {% include "method/output.html" %}
                 {% include "method/maintenance.html" %}
                 <section class="row"> 

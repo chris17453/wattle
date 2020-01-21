@@ -1,7 +1,7 @@
-{% set anchor = "Definitions" %}
+{% set anchor = "Definition" %}
 {% extends "method/wrapper.html" %}
 {% block content %}
-
+    {{ form.id }}
     {{ render_field(form.name) }}
     {{ render_field(form.display) }}
     {{ render_field(form.description) }}
