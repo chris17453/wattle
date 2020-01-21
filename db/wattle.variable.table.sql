@@ -1,0 +1,1 @@
+create table 'wattle'.'variable' ('id','method_id','name','display','type','ordinal','placeholder','','created','modified','active') file='db/wattle/account.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 
