@@ -1,0 +1,10 @@
+{% set anchor = "Configuration Map" %}
+{% extends "common/wrapper.html" %}
+{% block content %}
+
+{% for input in form.input %}
+    {{ render_field(input) }}
+{% endfor %}
+
+{% endblock content %}    
+

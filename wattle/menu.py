@@ -3,10 +3,11 @@ from . import db
 def get_group_membership_by_id(account_id):
     res=db.query("select group_id from wattle.group_membership where account_id=@account_id",{'@account_id':account_id})
     # no gorups
+    #res.debug()
     groups={}
     if res.data_length>0:
         for row in res.data:
-            group_id=row['data']['group_id'].strip()
+            group_id=row.group_id.strip()
             groups[group_id]={'id':group_id,'type':'menu','name':group_id,'display':'UNK','links':[],'ordinal':0}  
         return groups
 
@@ -26,9 +27,9 @@ def get_groups_by_list(groups):
         res=db.query("select id,display,ordinal from wattle.group  {0} ".format(where_clause),parameters)
         if res.data_length>0:
             for row in res.data:
-                group_id=row['data']['id']
-                groups[group_id]['display']=row['data']['display']
-                groups[group_id]['ordinal']=row['data']['ordinal']
+                group_id=row.id
+                groups[group_id]['display']=row.display
+                groups[group_id]['ordinal']=row.ordinal
             return groups
     return None
 
@@ -43,15 +44,16 @@ def get_methods_by_list(method_list,entity):
 
         where_clause="where "+" or ".join(methods_where)
         res=db.query("select id,name,display,url from wattle.methods {0}".format(where_clause),parameters)
+        #res.debug()
         if res.data_length!=0:
             for row in res.data:
-                method_id=row['data']['id']
-                display  =row['data']['display']
-                name     =row['data']['name']
-                url      =row['data']['url']
+                method_id=row.id
+                display  =row.display
+                name     =row.name
+                url      =row.url
                 if entity:
-                    entity_display=entity['display']
-                    entity_name=entity['name']
+                    entity_display=entity.display
+                    entity_name=entity.name
                 else :
                     entity_display=''
                     entity_name=''
@@ -76,18 +78,18 @@ def get_links_by_group_list(groups,entity):
 
             where_clause="where "+" or ".join(group_membership_where)
             res=db.query("select id,display,method_id,group_id,ordinal from wattle.link {0} ".format(where_clause),parameters)
-        
+            #res.debug()
             if res.data_length>0:
                 methods={}
                 for row in res.data:
-                    methods[row['data']['method_id']]=row['data']['method_id']
+                    methods[row.method_id]=row.method_id
                 methods=get_methods_by_list(methods,entity)
                 for row in res.data:
-                    link_id     =row['data']['id']
-                    group_id    =row['data']['group_id']
-                    method_id   =row['data']['method_id']
-                    link_display=row['data']['display']
-                    ordinal     =row['data']['ordinal']
+                    link_id     =row.id
+                    group_id    =row.group_id
+                    method_id   =row.method_id
+                    link_display=row.display
+                    ordinal     =row.ordinal
                     # maybe the method doesnt exist?
                     if methods==None or  method_id not in methods:
                         method_url  ="BOB"

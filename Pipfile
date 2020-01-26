@@ -6,7 +6,6 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-ddb = "*"
 jwt = "*"
 requests = "*"
 flask = "*"
@@ -17,6 +16,7 @@ flask-login = "*"
 cython = "*"
 wtforms = "*"
 flask-wtf = "*"
+traceback = "*"
 
 [requires]
 python_version = "3.7"

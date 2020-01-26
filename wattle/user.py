@@ -100,39 +100,44 @@ class user:
     def login(self,account,token):
         try:
             res=db.query("SELECT id,account,token,entity_id,active from wattle.account where account=@account and token=@token  LIMIT 1",{'@account':account,'@token':token})
+            #res.debug()
             if res.data_length==0:
                 return None;
-            data=res.data[0]['data']
-            self.id       =data['id']
-            self.account  =data['account']
-            self.token    =data['token']
-            self.entity_id=data['entity_id']
+            data=res.data[0]
+            
+            self.id       =data.id
+            self.account  =data.account
+            self.token    =data.token
+            self.entity_id=data.entity_id
             self.load_entity()
             self.logged_in=True
 
             self.is_authenticated=True
-            if data['active']=='1':
+            if data.active=='1':
                 self.is_active=True
             self.is_anonymous=False
 
         except Exception as ex:
-            print(ex)
+            print("Login Err"+str(ex) )
             pass
 
     def load_by_id(self,id):
         res=db.query("SELECT account,token,entity_id from wattle.account where id=@account_id LIMIT 1",{'@account_id':id})
-        data=account=res.data[0]['data']
-        account=data['account']
-        token=data['token']
-        self.entity_id=data['entity_id']
+        data=res.data[0]
+        account=data.account
+        token=data.token
+        self.entity_id=data.entity_id
         self.load_entity()
         self.login(account,token)
     
     def load_entity(self):
         res=db.query("SELECT * from wattle.entity where id=@entity_id LIMIT 1",{'@entity_id':self.entity_id})
         
-        data=res.data[0]['data']
-        self.entity=data
+        if res.data_length>0:
+            data=res.data[0]
+            self.entity=data
+        else:
+            self.entity={}
 
     
     def get_id(self):

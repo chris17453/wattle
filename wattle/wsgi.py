@@ -5,15 +5,38 @@ from .crud import tables, ddb_query_geany, initdb
 from .user import get_user_by_id
 from flask_login import login_user, logout_user, login_required
 from flask_login import LoginManager 
+from .ddb import record
+from .map import Map
+from flask.json import JSONEncoder
 
+class CustomJSONEncoder(JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, record):
+            # Implement code to convert Passport object to a dict
+            return obj.to_json()
+        else:
+            JSONEncoder.default(self, obj)
 
+#class CustomJSONDecoder(JSONDecoder):
+#    def __init__(self, *args, **kwargs):
+#        self.orig_obj_hook = kwargs.pop("object_hook", None)
+#        super(CustomJSONDecoder, self).__init__(*args,
+#            object_hook=self.custom_obj_hook, **kwargs)
+#
+#    def custom_obj_hook(self, dct):
+#        # Calling custom decode function:
+#        dct = HelperFunctions.jsonDecodeHandler(dct)
+#        if (self.orig_obj_hook):  # Do we have another hook to call?
+#            return self.orig_obj_hook(dct)  # Yes: then do it
+#        return dct  # No: just return the decoded dict
 
 def create_app():
     app = Flask(__name__, 
     static_folder = "./static",
     template_folder = "./static/views")
     CORS(app, resources={r'/*': {'origins': '*'}})
-
+    app.json_encoder = CustomJSONEncoder
+    
 
     app.config['SECRET_KEY'] = 'thefirstandlastthingithinkofisapasswordforyou'
 
@@ -22,6 +45,7 @@ def create_app():
     login_manager.init_app(app)
 
     #from .models import User
+
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -38,9 +62,11 @@ def create_app():
 
     @login_manager.request_loader
     def request_loader(request):
-        setup_session()
         if 'id' in session:
-            return load_user(session['id'])
+            user=load_user(session['id'])
+            setup_session(user)
+            return user
+
         return None
 
     # blueprint for auth routes in our app
@@ -51,24 +77,23 @@ def create_app():
     from .static import static as static_blueprint
     app.register_blueprint(static_blueprint)
     
-    def setup_session():
-        if 'entity' in session:
-            entity=session['entity']
-            brand=entity['display']
-        else:
-            brand='Wattle'
-            entity=None
-
-        if 'id' in session:
-            account_id=session['id']
-        else:
-            account_id=None
-
-        menus=menu(account_id,entity)
+    def setup_session(user):
+        # defaults
+        account_id=None
+        brand='Wattle'
+        entity=None
+        menus=None
+        # acount variables
+        if user:
+            entity=user.entity
+            brand=entity.display
+            account_id=user.id
+            menus=menu(account_id,entity)
+        
         session['menu']=menus
         session['brand']=brand
         session['account_id']=account_id
-
+       
 
     from .menu import menu
     @app.errorhandler(404)

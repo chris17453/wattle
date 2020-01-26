@@ -1,10 +1,12 @@
 #from .crud import tables, ddb_query_geany, initdb
-import ddb
+from .ddb import engine
 
 db_config_dir="db"
 
 # ddb autoloads SQL definitions in this directory once per flask init
-db=ddb.engine(debug=1,config_dir=db_config_dir,mode='object')
+db=engine(debug=None,config_dir=db_config_dir,mode='v2')
+#res=db.query("show tables")
+#res.debug()
 #initdb(tables);
 
 

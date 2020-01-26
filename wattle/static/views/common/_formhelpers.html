@@ -1,6 +1,7 @@
  
 {% macro render_field(field) %}
 
+{% if field.type!='HiddenField' %}
 <div class="form-group row">
     <div class="col-sm-1">
     {{ field.label }}
@@ -21,4 +22,8 @@
 
 </div>
 </div>
+{% else %}
+  {{ field(**kwargs)|safe }}
+{% endif %}
+
 {% endmacro %}

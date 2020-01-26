@@ -1,8 +1,8 @@
 from . import db
 from .tasks import get_task_choices_by_account_id
-
+from .config_map import get_config_map
 from flask_wtf import FlaskForm 
-from wtforms import BooleanField, StringField, PasswordField, TextAreaField, IntegerField, SelectField, HiddenField, DateTimeField, validators, FieldList
+from wtforms import BooleanField, StringField, PasswordField, TextAreaField, IntegerField, SelectField, HiddenField, DateTimeField, validators, FieldList, FormField
 from wtforms.validators import InputRequired
 
 # select the method id based on a url entry
@@ -10,7 +10,7 @@ def get_entity_id_by_name(entity_name):
     res=db.query("select id from wattle.entity where name=@entity_name LIMIT 1",{'@entity_name':entity_name})
     entity_id=None
     if res.data_length>0:
-        entity_id=res.data[0]['data']['id']
+        entity_id=res.data[0].id
     return entity_id
 
 
@@ -22,10 +22,10 @@ def get_method(entity_name,method_name):
     if entity_id:
         res=db.query("select * from wattle.methods where name=@method_name and entity_id=@entity_id LIMIT 1",{'@method_name':method_name,'@entity_id':entity_id})
         if res.data_length>0:
-            method=res.data[0]['data']
+            method=res.data
             for key in method:
                 method_dict[key]=method[key]
-    print( method_dict)
+    
     return method_dict
 
 
@@ -85,15 +85,7 @@ class method_form(FlaskForm):
     id            = HiddenField  ('Method ID'     ,render_kw={"placeholder": "This method's ID","class":'form-control'})
     output        = SelectField  ('Display'       ,render_kw={"placeholder": "How the data is displayed","class":'form-control'},choices=[('','None'),('raw', 'Raw Output'), ('tablesorter', 'Tables'), ('json', 'json'),('xml', 'XML'),('yaml', 'YAML'),('zip', 'ZIP'),('targz', 'tar.gz')])
     task          = SelectField  ('Task'          ,render_kw={"placeholder": "How is the data processed","class":'form-control'},choices=get_task_choices_by_account_id(0))
-    input         = FieldList(SelectField  ('Input'         ,render_kw={"placeholder": "How is the data collected","class":'form-control'},
-    choices=[('','None'),
-     ('text', 'Text Input'), 
-     ("bool","Boolean"),
-     ('number', 'Numeric'),
-     ('decimal', 'Decimal'),
-     ('Date', 'Date'),
-     ('daterange', 'Date Range'),
-     ('hidden','Hidden')]) )
+    input         = FormField(get_config_map())
     template      = StringField  ('template'      ,render_kw={"placeholder": "A predefined UI snipit for displaying data","class":'form-control'})
     footer        = TextAreaField('Footer'        ,render_kw={"placeholder": "Post text","class":'form-control'})
     header        = TextAreaField('Header'        ,render_kw={"placeholder": "Pre text","class":'form-control'})
@@ -101,12 +93,14 @@ class method_form(FlaskForm):
     yaml          = TextAreaField('Yaml'          ,render_kw={"placeholder": "Yaml representation of this method for inport or export.","class":'form-control'})
     
 
+
+
 class component(FlaskForm):
     id            =HiddenField  ('id'            ,render_kw={"placeholder": "ID"         ,"class":'form-control'})
     name          =StringField  ('Name'          ,render_kw={"placeholder": "Web Name"   ,"class":'form-control'})
     display       =StringField  ('Display'       ,render_kw={"placeholder": "Name"       ,"class":'form-control'})
     path          =StringField  ('Path'          ,render_kw={"placeholder": "Path"       ,"class":'form-control'})
-    map_id        =HiddenField  ('Ma_ID'         ,render_kw={"placeholder": "Input Map"  ,"class":'form-control'})
+    map_id        =HiddenField  ('Map_ID'        ,render_kw={"placeholder": "Input Map"  ,"class":'form-control'})
     entity_id     =HiddenField  ('Entity_ID'     ,render_kw={"placeholder": "Entity ID"  ,"class":'form-control'})
     gropup_id     =HiddenField  ('Group_ID'      ,render_kw={"placeholder": "Group ID"   ,"class":'form-control'})
     created       =DateTimeField('Created'       ,render_kw={"placeholder": "Created"    ,"class":'form-control'})

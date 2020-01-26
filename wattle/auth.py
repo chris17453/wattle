@@ -24,8 +24,7 @@ def login():
         session['id']=user.id
         session['entity_id']=user.entity_id
         session['entity']=user.entity
-        #print(session)
-
+        
     except Exception as ex:
         print("Auth Exception: {0}".format(ex))
     return redirect(url_for('static.home'))

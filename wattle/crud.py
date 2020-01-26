@@ -1,4 +1,4 @@
-import ddb
+from . import ddb
 
 CREATE_DB=None
 db_config_dir="db"
