@@ -1,6 +1,6 @@
 from . import db
 from .tasks import get_task_choices_by_account_id
-from .config_map import get_config_map
+from .config_map import get_config_map_by_uid
 from flask_wtf import FlaskForm 
 from wtforms import BooleanField, StringField, PasswordField, TextAreaField, IntegerField, SelectField, HiddenField, DateTimeField, validators, FieldList, FormField
 from wtforms.validators import InputRequired
@@ -77,7 +77,6 @@ def update_method(form):
 
 
 class method_form(FlaskForm):
-
     display       = StringField  ('Display'       ,render_kw={"placeholder": "Web Name","class":'form-control'})
     name          = StringField  ('Name'          ,render_kw={"placeholder": "Name","class":'form-control'})
     description   = StringField  ('Description'   ,render_kw={"placeholder": "What does this Method do?","class":'form-control'})
@@ -85,7 +84,8 @@ class method_form(FlaskForm):
     id            = HiddenField  ('Method ID'     ,render_kw={"placeholder": "This method's ID","class":'form-control'})
     output        = SelectField  ('Display'       ,render_kw={"placeholder": "How the data is displayed","class":'form-control'},choices=[('','None'),('raw', 'Raw Output'), ('tablesorter', 'Tables'), ('json', 'json'),('xml', 'XML'),('yaml', 'YAML'),('zip', 'ZIP'),('targz', 'tar.gz')])
     task          = SelectField  ('Task'          ,render_kw={"placeholder": "How is the data processed","class":'form-control'},choices=get_task_choices_by_account_id(0))
-    input         = FormField(get_config_map())
+    #print (self)
+    input         = FormField(get_config_map_by_uid("jsonify_1"))
     template      = StringField  ('template'      ,render_kw={"placeholder": "A predefined UI snipit for displaying data","class":'form-control'})
     footer        = TextAreaField('Footer'        ,render_kw={"placeholder": "Post text","class":'form-control'})
     header        = TextAreaField('Header'        ,render_kw={"placeholder": "Pre text","class":'form-control'})
