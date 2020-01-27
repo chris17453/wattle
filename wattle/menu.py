@@ -119,7 +119,7 @@ def sort_groups(groups):
 def menu(account_id,entity):
     groups=get_group_membership_by_id(account_id)
     groups=get_groups_by_list(groups)
+    #print(groups)
     groups=get_links_by_group_list(groups,entity)
     groups=sort_groups(groups)
-    #pprint(groups)
     return groups    

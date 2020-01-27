@@ -2705,8 +2705,14 @@ class engine:
                                 ln='line_number'
                             else:
                                 ln=-1
-                            data.append(record(data=line['data'],config=config,line_number=ln))
+                            #print(line['data'])
+                            r=record(data=line['data'],config=config,line_number=ln)
+                            print(r.to_json())
+                            #print (" ")
+                            data.append(r)
                         self.results.data=data
+                        for item in self.results.data:
+                           print("CHECK {0}",item.to_json())
                     except Exception as ex:
                         self.error(ex)
                 else:
@@ -2863,16 +2869,15 @@ class record_configuration:
     def __init__(self):
         pass
 class record:
-    __slots__=()
-    __internal={'__type'        : 0,
-              '__raw'         : None,
-              '__line_number' : None,
-              '__error'       : None,
-              '__match'       : None
-              }
-    __data=OrderedDict()
+    #__slots__ = ('__data' , '__type'  , '__raw' ,'__line_number' , '__error' , '__match')
+
+
     def __init__(self, data, config,line_number=None):
-        self.__raw         = data
+        self.__data=OrderedDict()
+        
+            
+
+        self.__raw   = data
         if line_number:
           self.__line_number = line_number
         else:
@@ -2886,24 +2891,26 @@ class record:
     @classmethod
     def __getattr__(self, name):
         try:
-          if   name=='_record__type':        return self.__internal['__type']
-          elif name=='_record__raw':         return self.__internal['__raw']
-          elif name=='_record__line_number': return self.__internal['__line_number']
-          elif name=='_record__error':       return self.__internal['__error']
-          elif name=='_record__match':       return self.__internal['__match']
-          elif name=='_record__data':        return self.__internal['__data']
+          if   name=='_record__type':        return self.__type
+          elif name=='_record__raw':         return self.__raw
+          elif name=='_record__line_number': return self.__line_number
+          elif name=='_record__error':       return self.__error
+          elif name=='_record__match':       return self.__match
+          elif name=='_record__data':        return self.__data
           else:
                 return self.__data[name]
         except KeyError:
+            print ("ERR:" + name )
+            print(self.__data)
             raise AttributeError(name)
     @classmethod
     def __setattr__(self, name, value):
-        if   name=='_record__type':        self.__internal['__type']       =value
-        elif name=='_record__raw':         self.__internal['__raw']        =value
-        elif name=='_record__line_number': self.__internal['__line_number']=value
-        elif name=='_record__error':       self.__internal['__error']      =value
-        elif name=='_record__match':       self.__internal['__match']      =value
-        elif name=='_record__data':        self.__internal['__data']       =value
+        if   name=='_record__type':        self.__type       =value
+        elif name=='_record__raw':         self.__raw        =value
+        elif name=='_record__line_number': self.__line_number=value
+        elif name=='_record__error':       self.__error      =value
+        elif name=='_record__match':       self.__match      =value
+        elif name=='_record__data':        self.__data       =value
         else:
           if self.__data.has_key(name)==False:
              err_msg="Cannot assign data to invalid key: '{0}'".format(name)
@@ -2937,7 +2944,7 @@ class record:
     @classmethod
     def iteritems(self):
         for key in self.__data:
-          print ("Key"+key)
+#          print ("Key"+key)
           yield key, self.__data[key]
     @classmethod
     def split_array(self,arr):

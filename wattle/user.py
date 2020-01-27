@@ -102,7 +102,7 @@ class user:
             res=db.query("SELECT id,account,token,entity_id,active from wattle.account where account=@account and token=@token  LIMIT 1",{'@account':account,'@token':token})
             #res.debug()
             if res.data_length==0:
-                return None;
+                return None
             data=res.data[0]
             
             self.id       =data.id
