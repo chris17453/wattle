@@ -1,5 +1,9 @@
 # ipam-o-nator make file
 
+python_cmd=python
+ifeq ($(OS),Windows_NT)
+python_cmd=py.exe
+endif
 
 hubusername=chris17453
 youremail=chris17453@gmail.com
@@ -12,6 +16,11 @@ app_hostname=wattle.website.com
 
 .DEFAULT: help
 .PHONY: all test clean profile
+
+install_pip:
+#https://sourceforge.net/projects/gnuwin32/files/wget/1.11.4-1/wget-1.11.4-1-setup.exe/download
+	@wget https://bootstrap.pypa.io/get-pip.py
+	@(python_cmd)get-pip.py
 
 help:
 	@echo "wattle"
@@ -69,7 +78,7 @@ status:
 	@echo "TO DO"
 
 debug:
-	@python -m wattle.wsgi
+	@$(python_cmd) -m wattle.wsgi
 
 
 ## DEPLOY
