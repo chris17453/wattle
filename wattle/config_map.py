@@ -19,7 +19,7 @@ def get_config_map_by_uid(uid):
 
     helper=config_map_helper()
     for row in res.data:
-        print(row.to_json())
+        #print(row.to_json())
         helper.add_field(field_type   =row.variable_type,
                          field_id=row.display,
                          place_holder =row.place_holder)
@@ -37,7 +37,7 @@ class config_map_helper():
         pass
         
     def add_field(self,field_type,field_id,place_holder='Enter a Value',choices=[]):
-        print(field_type,field_id)
+        #  (field_type,field_id)
         field=None
         if field_type=='txtarea':
             field=TextAreaField(field_id  ,render_kw={"placeholder": place_holder, "class": 'form-control'})

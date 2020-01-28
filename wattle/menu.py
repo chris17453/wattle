@@ -2,7 +2,7 @@ from . import db
 
 def get_group_membership_by_id(account_id):
     res=db.query("select group_id from wattle.group_membership where account_id=@account_id",{'@account_id':account_id})
-    # no gorups
+    # no groups
     #res.debug()
     groups={}
     if res.data_length>0:

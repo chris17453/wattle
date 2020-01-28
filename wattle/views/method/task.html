@@ -1,8 +1,4 @@
-{% set anchor = "Variables" %}
 {% extends "common/wrapper.html" %}
 {% block content %}
-
-{% include "config_map/config_map.html" %}
-
+    {{ render_field(form.task) }}
 {% endblock content %}    
-

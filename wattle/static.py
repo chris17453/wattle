@@ -4,26 +4,27 @@ from flask_login import login_user, logout_user, login_required
 from . import db 
 from .menu import menu
 from .methods import get_method, method_form, update_method
+from .tasks import get_task, task_form, update_task
 
 from pprint import pprint
 
 static = Blueprint('static', __name__,
     static_folder = "./static",
-    template_folder = "./static/views")
+    template_folder = "./views")
     
 @static.route('/')
 def unauth():
-    return render_template("unauth.html")
+    return render_template("not-logged-in/unauth.html")
 
 @static.route('/home')
 @login_required
 def home():
-    return render_template("home.html",title="Home",menu=session['menu'],brand=session['brand'])
+    return render_template("home/home.html",title="Home",menu=session['menu'],brand=session['brand'])
 
 @static.route('/login')
 def login():
     login_title="Login"
-    return render_template("login.html",url="login",title="Login",login_title=login_title,menu=session['menu'],brand=session['brand'])
+    return render_template("auth/login.html",url="login",title="Login",login_title=login_title,menu=session['menu'],brand=session['brand'])
 
 
 @static.route('/m/<entity>/<method>',methods=['GET', 'POST'])
@@ -60,7 +61,30 @@ def method_config(entity,method):
 
     #'name','display','description','url','header','footer','theme','input_module','display_module','auto_run'
     #pprint (method)
-    return render_template("configure-method.html",menu=session['menu'],brand=session['brand'],form=form)
+    return render_template("method/configure.html",menu=session['menu'],brand=session['brand'],form=form)
+
+
+@static.route('/t/c/<entity>/<task>',methods=['GET', 'POST'])
+@login_required
+def task_config(entity,task):
+    # on initital Load, Pull from database
+    if request.method == 'GET':
+        task=get_task(entity,task)
+        if task==None:
+            abort(404)
+        
+        form = task_form(**task)
+    else:
+        form = task_form(obj=request.form)
+
+    #and form.validate()
+    if request.method == 'POST' :
+        flash("Submitted")
+        update_task(form)
+
+    return render_template("task/configure.html",menu=session['menu'],brand=session['brand'],form=form)
+
+
 
 
 

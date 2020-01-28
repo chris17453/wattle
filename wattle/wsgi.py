@@ -94,11 +94,11 @@ def create_app():
         session['brand']=brand
         session['account_id']=account_id
        
-
+        #print(session)
     from .menu import menu
     @app.errorhandler(404)
     def page_not_found(error):
-        return render_template("404.html",menu=session['menu'],brand=session['brand']),404
+        return render_template("error/404.html",menu=session['menu'],brand=session['brand']),404
 
     return app
 

@@ -1,0 +1,29 @@
+{% extends "./common/base.html" %}
+{% block content %}
+<div id="wrapper" class="bdy">
+  {% include "common/sidebar.html" %}
+  <div id="page-content-wrapper" class="pt-3 pl-3">
+    {% include "common/messages.html" %}
+    <form Method="POST">
+        {% for section in form.sections %}
+        {% include section.template %}
+        {% endfor %}
+        <section class="row"> 
+            <div class="col">
+                <div class="mr-2 mb-2 p-2">
+                    <div class="form-group">
+                        <div class="float-left">
+                        <button  type="submit" class="btn btn-primary">Cancel</button>
+                    </div>
+                    <div class="float-right">
+                        <button  type="submit" class="btn btn-primary">Apply</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+    </form>
+  </div>
+  {% include "common/spacer.html" %}
+</div>
+{% endblock %}

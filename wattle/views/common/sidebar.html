@@ -1,0 +1,12 @@
+<!-- Sidebar -->
+<div id="sidebar-wrapper">
+    <nav id="spy">
+        <ul class="sidebar-nav nav">
+            {{ sections }}
+            {% for section in form.sections %}
+            <li><a href="{{ section.anchor }}"><span class="fa fa-home solo">&nbsp;</span>{{ section.display }}</a></li>
+            {% endfor %}
+        </ul>
+    </nav>
+</div>
+

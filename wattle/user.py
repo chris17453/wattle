@@ -109,16 +109,29 @@ class user:
             self.account  =data.account
             self.token    =data.token
             self.entity_id=data.entity_id
-            self.load_entity()
             self.logged_in=True
 
+            try:
+                if data.active=='1':
+                    self.is_active=True
+            except Exception as ex:
+                print("111Rrrr: ",ex,data.to_json())
+                pass
+
+
+            self.load_entity()
             self.is_authenticated=True
-            if data.active=='1':
-                self.is_active=True
+            try:
+                if data.active=='1':
+                    self.is_active=True
+            except Exception as ex:
+                print("222LERRrrr: ",ex,data.to_json())
+
+
             self.is_anonymous=False
 
         except Exception as ex:
-            print("Login Err"+str(ex) )
+            print("Login Err: "+str(ex) )
             pass
 
     def load_by_id(self,id):
@@ -159,3 +172,5 @@ def get_user_by_id(account_id):
     user_session=user()
     user_session.load_by_id(account_id)
     return user_session
+
+
