@@ -1,9 +1,5 @@
 {% extends "./common/base.html" %}
 {% block content %}
-<div id="wrapper" class="bdy">
-  {% include "common/sidebar.html" %}
-  <div id="page-content-wrapper" class="pt-3 pl-3">
-    {% include "common/messages.html" %}
     <form Method="POST">
         {% for section in form.sections %}
         {% include section.template %}
@@ -23,7 +19,4 @@
         </div>
         </section>
     </form>
-  </div>
-  {% include "common/spacer.html" %}
-</div>
 {% endblock %}

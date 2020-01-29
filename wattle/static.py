@@ -14,17 +14,19 @@ static = Blueprint('static', __name__,
     
 @static.route('/')
 def unauth():
-    return render_template("not-logged-in/unauth.html")
+    #session['brand']="Wattle"
+    #session['brand_short']="W"
+    return render_template("not-logged-in/unauth.html",state_vars=session)
 
 @static.route('/home')
 @login_required
 def home():
-    return render_template("home/home.html",title="Home",menu=session['menu'],brand=session['brand'])
+    return render_template("home/home.html",title="Home",menu=session['menu'],state_vars=session)
 
 @static.route('/login')
 def login():
     login_title="Login"
-    return render_template("auth/login.html",url="login",title="Login",login_title=login_title,menu=session['menu'],brand=session['brand'])
+    return render_template("auth/login.html",url="login",title="Login",login_title=login_title,menu=session['menu'],state_vars=session)
 
 
 @static.route('/m/<entity>/<method>',methods=['GET', 'POST'])
@@ -38,7 +40,7 @@ def method_loader(entity,method):
 
     #'name','display','description','url','header','footer','theme','input_module','display_module','auto_run'
     #pprint (method)
-    return render_template("method.html",menu=session['menu'],brand=session['brand'])
+    return render_template("method/method.html",menu=session['menu'],state_vars=session)
 
 
 @static.route('/m/c/<entity>/<method>',methods=['GET', 'POST'])
@@ -61,7 +63,7 @@ def method_config(entity,method):
 
     #'name','display','description','url','header','footer','theme','input_module','display_module','auto_run'
     #pprint (method)
-    return render_template("method/configure.html",menu=session['menu'],brand=session['brand'],form=form)
+    return render_template("method/configure.html",menu=session['menu'],state_vars=session,form=form)
 
 
 @static.route('/t/c/<entity>/<task>',methods=['GET', 'POST'])
@@ -82,7 +84,8 @@ def task_config(entity,task):
         flash("Submitted")
         update_task(form)
 
-    return render_template("task/configure.html",menu=session['menu'],brand=session['brand'],form=form)
+    print(session['entity'])
+    return render_template("task/configure.html",menu=session['menu'],state_vars=session,form=form)
 
 
 
@@ -120,7 +123,7 @@ def bam_IP4BLOCKS():
                 #    block['properties']+="|"+token.strip()
         blocks.append(block)
 
-    return render_template("bam_IP4BLOCKS.html",blocks=blocks,title="IP4Blocks List")
+    return render_template("bam_IP4BLOCKS.html",blocks=blocks,title="IP4Blocks List",state_vars=session)
 
 
 @static.route('/js/<path:path>')

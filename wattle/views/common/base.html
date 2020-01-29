@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="height:100%">
+<html style="height:100%" class="theme_css">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,10 +25,10 @@
       }();
       
       $(function() {
-        $('.sidebar-nav a').filter(function(){return this.href==location.href}).parent().addClass('active').siblings().removeClass('active')
-		$('.sidebar-nav a').click(function(){
-			$(this).parent().addClass('active').siblings().removeClass('active')	
-		})
+//        $('.sidebar-nav a').filter(function(){return this.href==location.href}).parent().addClass('active').siblings().removeClass('active')
+//		$('.sidebar-nav a').click(function(){
+//			$(this).parent().addClass('active').siblings().removeClass('active')	
+//		})
 
         var logout_function=function(e){
           alert("Logout");
@@ -54,22 +54,48 @@
             $canfocus.eq(index).focus();
         }
     });      
+    $(document).ready(function () {
+      a=localStorage.getItem('side_bar_active');
+      if (a=="0") {
+        $('#sidebar').toggleClass('active');
+      }
+          
+      $('.sidebarCollapse').on('click', function () {
+          $('#sidebar').toggleClass('active');
+          a=localStorage.getItem('side_bar_active');
+          if (a==null){
+            localStorage.setItem('side_bar_active','0');
+          }
+          if (a=="1") localStorage.setItem('side_bar_active','0');
+          if (a=="0") localStorage.setItem('side_bar_active','1');
+          
+          //document.cookie = "collapse_sidebar=John Doe";
+      });
+
+      });    
       </script>
 </head>
+{% set header_css="theme_css" %}
+{% set wrapper_css="theme_css" %}
+<body>
+  <div class="wrapper">
+    {% include "common/sidebar.html" %}
+    <div class="flow-box">
+    
+    {% include "common/header.html" %}
+    
+    <div id="content" style="flex-flow: column">
+      {% include "common/messages.html" %}
+    {% block content %}
+    {% endblock %}
+    {% if form and form.sections %}
+    {% include "common/spacer.html" %}
+    {% endif %}
+    {% include "common/footer.html" %}
+  </div>
+</div>
 
-<body class="d-flex flex-column h-100">
-<header>
-    {% include 'menu/menu.html' %}
-</header>
-        <main role="main" class="flex-shrink-0">
-               
-        {% block content %}
-        {% endblock %}
-        </main>
-            <footer class="footer mt-auto py-3 bg-dark" style="z-index:1">
-                <div class="container">
-                  <span class="text-muted">Wattle</span>
-                </div>
-              </footer>
-    </body>
+  </div>
+      
+</body>
 </html>

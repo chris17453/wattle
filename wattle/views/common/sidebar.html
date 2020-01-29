@@ -1,12 +1,45 @@
-<!-- Sidebar -->
-<div id="sidebar-wrapper">
-    <nav id="spy">
-        <ul class="sidebar-nav nav">
-            {{ sections }}
-            {% for section in form.sections %}
-            <li><a href="{{ section.anchor }}"><span class="fa fa-home solo">&nbsp;</span>{{ section.display }}</a></li>
-            {% endfor %}
-        </ul>
-    </nav>
-</div>
+<!-- Sidebar  -->
+<nav id="sidebar">
+    <div class="sidebar-header">
+        
+        <h3 class="sidebarCollapse">{{ state_vars.brand }}</h3>
+        <strong class="sidebarCollapse">{{ state_vars.brand_short }}</strong>
+    </div>
 
+    <ul class="list-unstyled components">
+
+    {% if not current_user.is_authenticated%}
+        <li><a href="{{ url_for('static.unauth') }}">Home</a></li>
+    {% endif %}
+
+    {% if current_user.is_authenticated %}
+        {% if menu!=None %}
+        {% for menu_item in menu %}
+            {% if menu_item['type']=='menu' %}
+                <li>
+                    <a href="#menu_{{menu_item['name']}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
+                        {{ menu_item['display'] }}
+                    </a>
+                    <ul class="collapse list-unstyled" id="menu_{{menu_item['name']}}">
+                        {% for link in menu_item['links'] %}
+                        <li>
+                        <a href="{{ link['url'] }}">{{ link['display'] }}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% else %}
+                <li>
+                <a href="{{ menu_item['url'] }}" >{{ menu_item['display'] }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+        {% endif %}
+    {% endif %}
+
+    
+
+
+    </ul>
+
+</nav>

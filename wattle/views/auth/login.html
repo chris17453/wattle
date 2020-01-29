@@ -37,7 +37,7 @@
         line-height: 1.2;
         text-align: center;
     }
-    .wrapper{
+    .login-wrapper{
         margin-top:40px;
         width: 640px;
         height:540px;
@@ -59,7 +59,7 @@
         padding: 0 5px;
         border:none;
     }
-    .wrapper form{
+    .login-wrapper form{
         padding: 29px 81px 57px 180px;
     }
     .form-label{
@@ -95,24 +95,12 @@
     }
 
 </style>
-<div class="wrapper mx-auto">
+<div class="login-wrapper mx-auto">
     <div class="login-image">
         <span class="login-title">
                 {{ login_title }}
         </span>
     </div>
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <div class="container">
-            {%- for msg in messages %}
-                <div class="alert alert-warning alert-dismissible fade show">
-                    <strong>Notice!</strong> {{ msg }}.
-                    <button type="button" class="close" data-dismiss="alert">&times;</button>
-                </div>
-            {% endfor -%}
-    </div>                
-{% endif %}
-    {% endwith %}
    
     <form method="POST" action="/login">
         <div class="field">
@@ -129,8 +117,8 @@
             </div>
         </div>
         <div class="flex-sb-m w-full p-b-30 mb-1">
-            <div class="field">
-                <label class="checkbox">
+            <div class="">
+                <label class="checkbox" style="color:black">
                     <input type="checkbox">
                     Remember me
                 </label>
