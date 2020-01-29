@@ -101,7 +101,7 @@ def create_app():
     from .menu import menu
     @app.errorhandler(404)
     def page_not_found(error):
-        return render_template("error/404.html",menu=session['menu'],brand=session['brand'],state_vars=session),404
+        return render_template("error/404.html",state_vars=session),404
 
     return app
 

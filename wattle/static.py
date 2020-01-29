@@ -21,12 +21,12 @@ def unauth():
 @static.route('/home')
 @login_required
 def home():
-    return render_template("home/home.html",title="Home",menu=session['menu'],state_vars=session)
+    return render_template("home/home.html",title="Home",state_vars=session)
 
 @static.route('/login')
 def login():
     login_title="Login"
-    return render_template("auth/login.html",url="login",title="Login",login_title=login_title,menu=session['menu'],state_vars=session)
+    return render_template("auth/login.html",url="login",title="Login",login_title=login_title,state_vars=session)
 
 
 @static.route('/m/<entity>/<method>',methods=['GET', 'POST'])
@@ -40,7 +40,7 @@ def method_loader(entity,method):
 
     #'name','display','description','url','header','footer','theme','input_module','display_module','auto_run'
     #pprint (method)
-    return render_template("method/method.html",menu=session['menu'],state_vars=session)
+    return render_template("method/method.html",state_vars=session)
 
 
 @static.route('/m/c/<entity>/<method>',methods=['GET', 'POST'])
@@ -63,7 +63,8 @@ def method_config(entity,method):
 
     #'name','display','description','url','header','footer','theme','input_module','display_module','auto_run'
     #pprint (method)
-    return render_template("method/configure.html",menu=session['menu'],state_vars=session,form=form)
+    print(session)
+    return render_template("method/configure.html",state_vars=session,form=form)
 
 
 @static.route('/t/c/<entity>/<task>',methods=['GET', 'POST'])
@@ -85,7 +86,7 @@ def task_config(entity,task):
         update_task(form)
 
     print(session['entity'])
-    return render_template("task/configure.html",menu=session['menu'],state_vars=session,form=form)
+    return render_template("task/configure.html",state_vars=session,form=form)
 
 
 

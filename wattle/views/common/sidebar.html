@@ -13,8 +13,8 @@
     {% endif %}
 
     {% if current_user.is_authenticated %}
-        {% if menu!=None %}
-        {% for menu_item in menu %}
+        {% if state_vars.menu!=None %}
+        {% for menu_item in state_vars.menu %}
             {% if menu_item['type']=='menu' %}
                 <li>
                     <a href="#menu_{{menu_item['name']}}" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">
