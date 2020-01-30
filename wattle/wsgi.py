@@ -1,13 +1,16 @@
 from flask import Flask, request, send_from_directory, jsonify, render_template, session, abort
-from flask_cors import CORS
-#from flask_login import LoginManager 
-from .crud import tables, ddb_query_geany, initdb
-from .user import get_user_by_id
 from flask_login import login_user, logout_user, login_required
 from flask_login import LoginManager 
-from .ddb import record
-from .map import Map
+from flask_cors import CORS
 from flask.json import JSONEncoder
+#from flask_login import LoginManager 
+
+from .controllers.crud import tables, ddb_query_geany, initdb
+from .controllers.user import get_user_by_id
+from .controllers.ddb import record
+from .controllers.map import Map
+
+from .controllers.menu import menu
 
 class CustomJSONEncoder(JSONEncoder):
     def default(self, obj):
@@ -70,11 +73,11 @@ def create_app():
         return None
 
     # blueprint for auth routes in our app
-    from .auth import auth as auth_blueprint
+    from .controllers.auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
     # blueprint for static elements of site
-    from .static import static as static_blueprint
+    from .api import static as static_blueprint
     app.register_blueprint(static_blueprint)
     
     def setup_session(user):
@@ -98,7 +101,6 @@ def create_app():
         session['account_id']=account_id
        
         #print(session)
-    from .menu import menu
     @app.errorhandler(404)
     def page_not_found(error):
         return render_template("error/404.html",state_vars=session),404

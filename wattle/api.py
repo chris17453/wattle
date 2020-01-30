@@ -1,10 +1,10 @@
+from werkzeug.security import generate_password_hash, check_password_hash
 from flask import Blueprint, render_template, redirect, url_for, request , send_from_directory, session, abort, flash
 from flask_login import login_user, logout_user, login_required
 #from .models import User
-from . import db 
-from .menu import menu
-from .methods import get_method, method_form, update_method
-from .tasks import get_task, task_form, update_task
+from .controllers.methods import get_method, method_form, update_method
+from .controllers.tasks import get_task, task_form, update_task
+from .controllers.user import validate_user
 
 from pprint import pprint
 
@@ -23,10 +23,6 @@ def unauth():
 def home():
     return render_template("home/home.html",title="Home",state_vars=session)
 
-@static.route('/login')
-def login():
-    login_title="Login"
-    return render_template("auth/login.html",url="login",title="Login",login_title=login_title,state_vars=session)
 
 
 @static.route('/m/<entity>/<method>',methods=['GET', 'POST'])
@@ -148,3 +144,38 @@ def send_view(path):
 @static.route('/media/<path:path>')
 def staticsend_media(path):
     return send_from_directory('static', path)    
+
+
+
+# On initial login This guy validates, then stores the valid user id in the session dict
+@static.route('/login', methods=['POST','GET'])
+def login():
+    if request.method=='GET':
+        login_title="Login"
+        return render_template("auth/login.html",url="login",title="Login",login_title=login_title,state_vars=session)
+    elif request.method=='POST':
+        account = request.form.get('account')
+        password = request.form.get('password')
+        remember = True if request.form.get('remember') else False
+        user =validate_user(account,password)
+        if user.is_authenticated==False:
+            flash('Please check your login details and try again.')
+            return redirect(url_for('auth.login')) # if user doesn't exist or password is wrong, reload the page
+        # if the above check passes, then we know the user has the right credentials
+        try:
+            login_user(user, remember=remember)
+            session['id']=user.id
+            session['entity_id']=user.entity_id
+            session['entity']=user.entity
+        
+        except Exception as ex:
+            print("Auth Exception: {0}".format(ex))
+        return redirect(url_for('static.home'))
+
+# this guy logs a user out and removes the unique id from the session dict
+@static.route('/logout')
+@login_required
+def logout():
+    session['id']=None
+    logout_user()
+    return redirect(url_for('static.unauth'))        
