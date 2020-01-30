@@ -1,0 +1,1 @@
+create table 'wattle'.'methods' ('id','name','display','description','url','header','footer','template','input','task','output','auto_run') file='db/wattle/methods.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 

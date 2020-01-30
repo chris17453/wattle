@@ -1,0 +1,26 @@
+# name,html
+home, <i class="fas fa-home"></i>
+settings, <i class="fas fa-cog"></i>
+users, config <i class="fas fa-users-cog"></i>
+task, <i class="fas fa-tasks"></i>
+logs,  <i class="fas fa-file-alt"></i>
+location, <i class="fas fa-map-pin"></i>
+secret, <i class="fas fa-key"></i>
+puzzle, <i class="fas fa-puzzle-piece"></i>
+link, <i class="fas fa-link"></i>
+csv, <i class="fas fa-file-csv"></i>
+date, <i class="far fa-calendar-alt"></i>
+number, <i class="fas fa-sort-numeric-down"></i>
+list, <i class="fas fa-list-ol"></i>
+output,  <i class="fas fa-tv"></i>
+git, <i class="fab fa-git"></i>
+folder, <i class="far fa-folder"></i>
+docker, <i class="fab fa-docker"></i>
+toolbox, <i class="fas fa-toolbox"></i>
+keyboard, <i class="far fa-keyboard"></i>
+chart, <i class="fas fa-chart-bar"></i>
+search, <i class="fa fa-search"></i>
+trash, <i class="fa fa-trash-o"></i>
+refresh, <i class="fa fa-refresh"></i>
+download, <i class="fa fa-download"></i>
+server, <i class="fa fa-server"></i>
