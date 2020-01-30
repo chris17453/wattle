@@ -1,15 +1,9 @@
 <!-- Sidebar  -->
 <nav id="sidebar">
-    <div class="sidebar-header">
-        
-        <h3 class="sidebarCollapse">{{ state_vars.brand }}</h3>
-        <strong class="sidebarCollapse">{{ state_vars.brand_short }}</strong>
-    </div>
-
     <ul class="list-unstyled components">
 
     {% if not current_user.is_authenticated%}
-        <li><a href="{{ url_for('static.unauth') }}">Home</a></li>
+        <li><a href="{{ url_for('api.unauth') }}">Home</a></li>
     {% endif %}
 
     {% if current_user.is_authenticated %}

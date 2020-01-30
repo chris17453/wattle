@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "."
+		},
+		{
+			"path": "/home/cwatkin1/repos/chris17453/ddb"
 		}
 	],
 	"settings": {

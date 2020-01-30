@@ -1,1 +1,0 @@
-create table 'wattle'.'group_objects' ('id','type','group_id','object_id') file='db/wattle/group_objects.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 

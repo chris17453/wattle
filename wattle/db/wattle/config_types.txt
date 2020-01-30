@@ -1,6 +1,0 @@
-# id,name,display,description,format, 
-2,str ,String          ,Any text                         , %s
-3,date,Date            ,A SQL Date                       , Y-M-D
-4,dtm ,Date Time       ,A SQL Date Time                  , Y-M-D H:I:S 
-4,time,Time            ,A SQL Time                       , H:I:S
-5,int ,Integer         ,A whole number                   , %d

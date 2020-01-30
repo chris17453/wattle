@@ -1,4 +1,0 @@
-# id,uid,name,display,description,input_type,variable_type,validator,display_ordinal,default,place_holder
-1,jsonify_1,name,Name,Desc...,param,str,0,0,0,Display Name
-2,jsonify_1,age,Age,Desc...,param,int,0,0,0,Age
-

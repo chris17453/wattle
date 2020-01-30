@@ -101,7 +101,7 @@ span {
 .wrapper {
     display: flex;
     align-items: stretch;
-    margin-top:-56px;
+    margin-top:0px;
 }
 
 #sidebar {
@@ -247,7 +247,13 @@ a.article:hover {
     overflow-y: scroll;
     overflow-x: hidden;
     flex-wrap: nowrap ;
-    /*transition: all 0.3s;*/
+    border-top-style:solid;
+    border-top-width:1px;
+    border-top-color:white;
+    border-left-style:solid;
+    border-left-width:1px;
+    border-left-color:white;
+/*transition: all 0.3s;*/
 }
 
 /* ---------------------------------------------------
@@ -260,7 +266,7 @@ a.article:hover {
         max-width: 80px;
         text-align: center;
         margin-left: -80px !important;
-    }
+        }
     .dropdown-toggle::after {
         top: auto;
         bottom: 10px;
@@ -307,6 +313,10 @@ a.article:hover {
 .section_pad{
     
     padding-top: 5px;
+}
+
+.top_header{
+    margin-top: -56px;
 }
 
 .theme_css {

@@ -8,24 +8,24 @@ from .controllers.user import validate_user
 
 from pprint import pprint
 
-static = Blueprint('static', __name__,
+api = Blueprint('api', __name__,
     static_folder = "./static",
     template_folder = "./views")
     
-@static.route('/')
+@api.route('/')
 def unauth():
     #session['brand']="Wattle"
     #session['brand_short']="W"
     return render_template("not-logged-in/unauth.html",state_vars=session)
 
-@static.route('/home')
+@api.route('/home')
 @login_required
 def home():
     return render_template("home/home.html",title="Home",state_vars=session)
 
 
 
-@static.route('/m/<entity>/<method>',methods=['GET', 'POST'])
+@api.route('/m/<entity>/<method>',methods=['GET', 'POST'])
 @login_required
 def method_loader(entity,method):
     method=get_method(entity,method)
@@ -39,7 +39,7 @@ def method_loader(entity,method):
     return render_template("method/method.html",state_vars=session)
 
 
-@static.route('/m/c/<entity>/<method>',methods=['GET', 'POST'])
+@api.route('/m/c/<entity>/<method>',methods=['GET', 'POST'])
 @login_required
 def method_config(entity,method):
     # on initital Load, Pull from database
@@ -63,7 +63,7 @@ def method_config(entity,method):
     return render_template("method/configure.html",state_vars=session,form=form)
 
 
-@static.route('/t/c/<entity>/<task>',methods=['GET', 'POST'])
+@api.route('/t/c/<entity>/<task>',methods=['GET', 'POST'])
 @login_required
 def task_config(entity,task):
     # on initital Load, Pull from database
@@ -89,7 +89,7 @@ def task_config(entity,task):
 
 
 
-@static.route('/bam/ipblocks/list')
+@api.route('/bam/ipblocks/list')
 def bam_IP4BLOCKS():
     import importlib.util
     spec = importlib.util.spec_from_file_location("bam_api", "/home/cwatkin1/repos/chris17453/ipam-o-nator/src/bam_api.py")
@@ -123,7 +123,7 @@ def bam_IP4BLOCKS():
     return render_template("bam_IP4BLOCKS.html",blocks=blocks,title="IP4Blocks List",state_vars=session)
 
 
-@static.route('/js/<path:path>')
+@api.route('/js/<path:path>')
 def send_js(path):
     #return path
     return send_from_directory('app/js/', path,mimetype="text/javascript")    
@@ -131,7 +131,7 @@ def send_js(path):
 # all files are loaded as raw html, then encoded into json.
 # templating then ocurs with variable expansion and returned 
 # to the server
-@static.route('/view/<path:path>')
+@api.route('/view/<path:path>')
 def send_view(path):
     #return path
     f=open(path, "r")
@@ -141,14 +141,14 @@ def send_view(path):
     return json_string
 
 
-@static.route('/media/<path:path>')
-def staticsend_media(path):
+@api.route('/media/<path:path>')
+def apisend_media(path):
     return send_from_directory('static', path)    
 
 
 
 # On initial login This guy validates, then stores the valid user id in the session dict
-@static.route('/login', methods=['POST','GET'])
+@api.route('/login', methods=['POST','GET'])
 def login():
     if request.method=='GET':
         login_title="Login"
@@ -158,9 +158,10 @@ def login():
         password = request.form.get('password')
         remember = True if request.form.get('remember') else False
         user =validate_user(account,password)
+
         if user.is_authenticated==False:
             flash('Please check your login details and try again.')
-            return redirect(url_for('auth.login')) # if user doesn't exist or password is wrong, reload the page
+            return redirect(url_for('api.login')) # if user doesn't exist or password is wrong, reload the page
         # if the above check passes, then we know the user has the right credentials
         try:
             login_user(user, remember=remember)
@@ -170,12 +171,12 @@ def login():
         
         except Exception as ex:
             print("Auth Exception: {0}".format(ex))
-        return redirect(url_for('static.home'))
+        return redirect(url_for('api.home'))
 
 # this guy logs a user out and removes the unique id from the session dict
-@static.route('/logout')
+@api.route('/logout')
 @login_required
 def logout():
     session['id']=None
     logout_user()
-    return redirect(url_for('static.unauth'))        
+    return redirect(url_for('api.unauth'))        

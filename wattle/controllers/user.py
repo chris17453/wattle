@@ -102,6 +102,7 @@ class user:
             res=db.query("SELECT id,account,token,entity_id,active from wattle.account where account=@account and token=@token  LIMIT 1",{'@account':account,'@token':token})
             #res.debug()
             if res.data_length==0:
+                print ("none")
                 return None
             data=res.data[0]
             
@@ -115,7 +116,7 @@ class user:
                 if data.active=='1':
                     self.is_active=True
             except Exception as ex:
-                print("111Rrrr: ",ex,data.to_json())
+                print("Login Error: ",ex,data.to_json())
                 pass
 
 
@@ -125,7 +126,7 @@ class user:
                 if data.active=='1':
                     self.is_active=True
             except Exception as ex:
-                print("222LERRrrr: ",ex,data.to_json())
+                print("Lopgin error: ",ex,data.to_json())
 
 
             self.is_anonymous=False

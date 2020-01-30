@@ -1,1 +1,0 @@
-create table 'wattle'.'config_map' ('id','uid','name','display','description','input_type','variable_type','validator','display_ordinal','default','place_holder') file='db/wattle/config_map.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 

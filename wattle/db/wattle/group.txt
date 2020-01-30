@@ -1,5 +1,0 @@
-# id,name,display,order,entity_id,ordinal
-1,System Layout ,Config,0,1,2
-2,System Methods,Method,0,1,1
-
-

@@ -1,4 +1,0 @@
-# id,name,display,division,group,location,parent_id,brand,brand_short
-1,Wattle,Wattle,System,Operations,0,0,Wattle,W
-200,Biz1,Business1,Corp,IT,0,0,Biz1
-300,Biz2,Business2,Corp,IT,0,0,Biz2

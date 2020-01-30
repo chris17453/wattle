@@ -1,9 +1,0 @@
-# id,name,display,description,url,header,footer,template,input,task,output,auto_run
-10,Methods,Methods2,Methoddsds,c/{{ entity_name }}/{{ method_name }} ,Well this is just a header,And this is a nice footer,,jsonify_1,1,xml,False
-20,Users,Users,Method,{{ entity_name }}/{{ method_name }} ,Header,Footer,Theme,input,1,display,auto
-30,Groups,Groups,Method,{{ entity_name }}/{{ method_name }} ,Header,Footer,Theme,input,1,display,auto
-40,Location,Location,Method,{{ entity_name }}/{{ method_name }} ,Header,Footer,Theme,input,1,display,auto
-50,Entity,Entity,Method,{{ entity_name }}/{{ method_name }} ,Header,Footer,Theme,input,1,display,auto
-60,Repo,Repo,Method,{{ entity_name }}/{{ method_name }} ,Header,Footer,Theme,input,1,display,auto
-70,Secret,Secret,Method,{{ entity_name }}/{{ method_name }} ,Header,Footer,Theme,input,1,display,auto
-80,Plugin,Plugin,Method,{{ entity_name }}/{{ method_name }} ,Header,Footer,Theme,input,1,display,auto

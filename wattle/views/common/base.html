@@ -60,7 +60,7 @@
         $('#sidebar').toggleClass('active');
       }
           
-      $('.sidebarCollapse').on('click', function () {
+      $('#sidebar a').on('dblclick', function () {
           $('#sidebar').toggleClass('active');
           a=localStorage.getItem('side_bar_active');
           if (a==null){
@@ -78,13 +78,12 @@
 {% set header_css="theme_css" %}
 {% set wrapper_css="theme_css" %}
 <body>
+  {% include "common/header.html" %}
   <div class="wrapper">
     {% include "common/sidebar.html" %}
-    <div class="flow-box">
     
-    {% include "common/header.html" %}
     
-    <div id="content" style="flex-flow: column">
+    <div id="content" >
       {% include "common/messages.html" %}
     {% block content %}
     {% endblock %}
@@ -93,9 +92,9 @@
     {% endif %}
     {% include "common/footer.html" %}
   </div>
-</div>
-
+  
   </div>
       
 </body>
 </html>
+
