@@ -1,1 +1,1 @@
-create table 'wattle'.'location' ('id','name','designation','address1','address2','city','postalcode','state','country') file='db/wattle/locations.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 
+create table 'wattle'.'location' ('id','name','designation','address1','address2','city','postalcode','state','country') file='wattle/db/wattle/locations.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 

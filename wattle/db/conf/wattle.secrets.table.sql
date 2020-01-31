@@ -1,1 +1,1 @@
-create table 'wattle'.'secrets' ('id','name','type','user','password') file='db/wattle/secrets.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 
+create table 'wattle'.'secrets' ('id','name','type','user','password') file='wattle/db/wattle/secrets.txt'   delimiter=',' whitespace=False errors=True comments=False strict=False data_starts_on=0 
