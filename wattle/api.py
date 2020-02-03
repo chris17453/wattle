@@ -48,9 +48,9 @@ def method_config(entity,method):
         if method==None:
             abort(404)
 
-        form = method_form(**method)
+        form = method_form(**method).build()
     else:
-        form = method_form(obj=request.form)
+        form = method_form(obj=request.form).build()
 
     #and form.validate()
     if request.method == 'POST' :

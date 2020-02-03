@@ -5,7 +5,7 @@ from .config_map import get_config_map_by_uid
 from flask_wtf import FlaskForm 
 from wtforms import BooleanField, StringField, PasswordField, TextAreaField, IntegerField, SelectField, HiddenField, DateTimeField, validators, FieldList, FormField
 from wtforms.validators import InputRequired
-
+from .form_template import AutoForm
 
 
 # select the method based on a url enttity/method
@@ -65,24 +65,42 @@ def update_method(form):
 
 
 
-class method_form(FlaskForm):
-    display       = StringField  ('Display'       ,render_kw={"placeholder": "Web Name","class":'form-control'})
-    name          = StringField  ('Name'          ,render_kw={"placeholder": "Name","class":'form-control'})
-    description   = StringField  ('Description'   ,render_kw={"placeholder": "What does this Method do?","class":'form-control'})
-    url           = StringField  ('URL'           ,render_kw={"placeholder": "The endpoint for this method","class":'form-control','readonly': True})
-    id            = HiddenField  ('Method ID'     ,render_kw={"placeholder": "This method's ID","class":'form-control'})
-    output        = SelectField  ('Display'       ,render_kw={"placeholder": "How the data is displayed","class":'form-control'},choices=[('','None'),('raw', 'Raw Output'), ('tablesorter', 'Tables'), ('json', 'json'),('xml', 'XML'),('yaml', 'YAML'),('zip', 'ZIP'),('targz', 'tar.gz')])
-    task          = SelectField  ('Task'          ,render_kw={"placeholder": "How is the data processed","class":'form-control'},choices=get_task_choices_by_account_id(0))
-    #print (self)
-    template      = StringField  ('template'      ,render_kw={"placeholder": "A predefined UI snipit for displaying data","class":'form-control'})
-    footer        = TextAreaField('Footer'        ,render_kw={"placeholder": "Post text","class":'form-control'})
-    header        = TextAreaField('Header'        ,render_kw={"placeholder": "Pre text","class":'form-control'})
-    auto_run      = BooleanField ('Auto Execute'  ,render_kw={"placeholder": "Run on page load?","class":'form-control'})
-    yaml          = TextAreaField('Yaml'          ,render_kw={"placeholder": "Yaml representation of this method for inport or export.","class":'form-control'})
-    sections=[
-        {'anchor':'#Define','id':'Define','template':'method/define.html','display':'Define' },
-        {'anchor':'#Style' ,'id':'Style' ,'template':'method/style.html' ,'display':'Style'  },
-        {'anchor':'#Task'  ,'id':'Task'  ,'template':'method/task.html'  ,'display':'Task'   },
-        {'anchor':'#Output','id':'Output','template':'method/output.html','display':'Output' } ]
+
+def method_form(**kwargs):
+    form_schema=[
+        {'name':'Define','fields':[
+        {'name' :'display'    , 'type':'String'  , 'name': 'Display'       ,'placeholder': "Web Name","class":'form-control'},
+        {'name' :'name'       , 'type':'String'  , 'name': 'Name'          ,'placeholder': "Name","class":'form-control'},
+        {'name' :'description', 'type':'String'  , 'name': 'Description'   ,'placeholder': "What does this Method do?","class":'form-control'},
+        {'name' :'url'        , 'type':'String'  , 'name': 'URL'           ,'placeholder': "The endpoint for this method","class":'form-control','readonly': True},
+        {'name' :'id'         , 'type':'Hidden'  , 'name': 'Method ID'     ,'placeholder': "This method's ID","class":'form-control'},
+        ]},
+        {'name':'Style','fields':[
+        {'name' :'output'     , 'type':'Select'  , 'name': 'Display'       ,'placeholder': "How the data is displayed","class":'form-control','choices':[('','None'),('raw', 'Raw Output'), ('tablesorter', 'Tables'), ('json', 'json'),('xml', 'XML'),('yaml', 'YAML'),('zip', 'ZIP'),('targz', 'tar.gz')]},
+        {'name' :'task'       , 'type':'Select'  , 'name': 'Task'          ,'placeholder': "How is the data processed","class":'form-control','choices':get_task_choices_by_account_id(0)},
+        {'name' :'template'   , 'type':'String'  , 'name': 'template'      ,'placeholder': "A predefined UI snipit for displaying data","class":'form-control'},
+        {'name' :'footer'     , 'type':'TextArea', 'name': 'Footer'        ,'placeholder': "Post text","class":'form-control'},
+        {'name' :'header'     , 'type':'TextArea', 'name': 'Header'        ,'placeholder': "Pre text","class":'form-control'},
+        {'name' :'auto_run'   , 'type':'Boolean' , 'name': 'Auto Execute'  ,'placeholder': "Run on page load?","class":'form-control'},
+        {'name' :'yaml'       , 'type':'TextArea', 'name': 'Yaml'          ,'placeholder': "Yaml representation of this method for inport or export.","class":'form-control'},
+        ]}
+#        {
+#        
+#            {'anchor':'#Define','id':'Define','template':'method/define.html','display':'Define' },
+#            {'anchor':'#Style' ,'id':'Style' ,'template':'method/style.html' ,'display':'Style'  },
+#            {'anchor':'#Task'  ,'id':'Task'  ,'template':'method/task.html'  ,'display':'Task'   },
+#            {'anchor':'#Output','id':'Output','template':'method/output.html','display':'Output' } ]
+#        }
+
+    ]
+    form=AutoForm(form_schema,**kwargs)
     
+    return form
+        
+    
+
+
+
+
+
 
