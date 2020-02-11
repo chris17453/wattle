@@ -101,11 +101,13 @@ class user:
         try:
             res=db.query("SELECT id,account,token,entity_id,active from wattle.account where account=@account and token=@token  LIMIT 1",{'@account':account,'@token':token})
             #res.debug()
+            #print(res.data)
+            #print ("LOGIN")
             if res.data_length==0:
-                print ("none")
+                print ("No data")
                 return None
             data=res.data[0]
-            
+            #print(data)
             self.id       =data.id
             self.account  =data.account
             self.token    =data.token
@@ -126,7 +128,7 @@ class user:
                 if data.active=='1':
                     self.is_active=True
             except Exception as ex:
-                print("Lopgin error: ",ex,data.to_json())
+                print("Login error: ",ex,data.to_json())
 
 
             self.is_anonymous=False

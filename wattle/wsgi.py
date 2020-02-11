@@ -43,7 +43,7 @@ def create_app():
     app.config['SECRET_KEY'] = 'thefirstandlastthingithinkofisapasswordforyou'
 
     login_manager = LoginManager()
-    login_manager.login_view = 'auth.login'
+    login_manager.login_view = 'api.login'
     login_manager.init_app(app)
 
     #from .models import User

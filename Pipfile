@@ -11,12 +11,9 @@ requests = "*"
 flask = "*"
 flask-cors = "*"
 openpyxl = "*"
-pillow = "*"
 flask-login = "*"
-cython = "*"
 wtforms = "*"
 flask-wtf = "*"
-traceback = "*"
 
 [requires]
 python_version = "3.7"
